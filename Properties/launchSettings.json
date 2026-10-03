@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "GiveAID": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:53353;http://localhost:53354"
+    }
+  }
+}

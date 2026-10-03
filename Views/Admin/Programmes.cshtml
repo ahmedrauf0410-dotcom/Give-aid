@@ -1,0 +1,82 @@
+@model IEnumerable<GiveAID.Models.Programme>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Manage Programmes";
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+    <div>
+        <h4 class="fw-bold mb-1">Programmes Management</h4>
+        <p class="text-muted small mb-0">Create, update, track volunteer RSVPs, or cancel welfare initiatives.</p>
+    </div>
+    <div class="d-flex flex-wrap gap-2">
+        <a asp-action="ProgrammeInterests" class="btn btn-outline-warning text-dark rounded-pill px-3 fw-semibold">
+            <i class="bi bi-ticket-perforated me-1"></i> View All RSVPs
+        </a>
+        <a asp-action="CreateProgramme" class="btn btn-primary rounded-pill px-4 fw-semibold shadow-sm">
+            <i class="bi bi-plus-lg me-1"></i> New Programme
+        </a>
+    </div>
+</div>
+
+<div class="card admin-table-card programmes-card border-0 shadow-sm rounded-4">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0 programmes-table">
+            <thead class="table-light small text-secondary">
+                <tr>
+                    <th>Programme</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>RSVPs</th>
+                    <th>Status</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var prog in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center gap-2 min-w-0">
+                                <img src="@prog.ImageUrl" alt="@prog.Title" class="rounded-3 flex-shrink-0" style="width: 40px; height: 40px; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1593113598332-cd288d649433?w=100&auto=format&fit=crop&q=80';">
+                                <div class="min-w-0">
+                                    <strong class="text-dark d-block text-truncate" style="max-width: 200px;" title="@prog.Title">@prog.Title</strong>
+                                    <small class="text-muted text-truncate d-none d-xl-block" style="max-width: 180px;">@prog.ShortDescription</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="badge bg-secondary-subtle text-secondary small">@prog.Category</span></td>
+                        <td class="small text-nowrap"><i class="bi bi-calendar3 text-primary me-1"></i>@prog.EventDate.ToString("MMM dd, yyyy")</td>
+                        <td>
+                            <span class="small text-muted text-truncate d-inline-block" style="max-width: 120px;" title="@prog.Location">
+                                <i class="bi bi-geo-alt text-danger me-1"></i>@prog.Location
+                            </span>
+                        </td>
+                        <td>
+                            <a asp-action="ProgrammeInterests" asp-route-programmeId="@prog.Id" class="badge bg-primary text-decoration-none px-2 py-1 small" title="View Registered Participants">
+                                <i class="bi bi-people-fill me-1"></i>@prog.ProgrammeInterests.Count
+                            </a>
+                        </td>
+                        <td>
+                            <span class="badge bg-success-subtle text-success small">@prog.Status</span>
+                        </td>
+                        <td class="text-end">
+                            <div class="d-inline-flex gap-1">
+                                <a asp-action="EditProgramme" asp-route-id="@prog.Id" class="btn btn-sm btn-light border rounded-pill px-2 py-1" title="Edit Programme">
+                                    <i class="bi bi-pencil me-1"></i><span class="d-none d-lg-inline">Edit</span>
+                                </a>
+                                <form asp-action="DeleteProgramme" asp-route-id="@prog.Id" method="post" class="d-inline delete-confirm-form" data-item-name="@prog.Title">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-2 py-1" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

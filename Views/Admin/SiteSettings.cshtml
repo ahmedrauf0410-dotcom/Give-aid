@@ -1,0 +1,126 @@
+@model GiveAID.ViewModels.SiteSettingEditViewModel
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Site Settings & Branding";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card border-0 shadow-sm rounded-4 p-3 p-sm-4 p-md-5 bg-white">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4 pb-3 border-bottom">
+                <div>
+                    <h3 class="fw-bold text-dark mb-0">Global Site Settings & Branding</h3>
+                    <small class="text-muted">Manage organization name, contact details, social links, and footer statements.</small>
+                </div>
+                <a asp-action="Dashboard" class="btn btn-outline-secondary rounded-pill px-3 btn-sm">
+                    &larr; Back to Dashboard
+                </a>
+            </div>
+
+            <form asp-action="SiteSettings" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="ExistingLogoUrl" />
+
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 small" role="alert"></div>
+
+                <h5 class="fw-bold text-primary mb-3"><i class="bi bi-building me-2"></i>Organization Identity</h5>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label asp-for="NgoName" class="form-label small fw-semibold text-secondary"></label>
+                        <input asp-for="NgoName" class="form-control form-control-lg" />
+                        <span asp-validation-for="NgoName" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Tagline" class="form-label small fw-semibold text-secondary"></label>
+                        <input asp-for="Tagline" class="form-control form-control-lg" />
+                        <span asp-validation-for="Tagline" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <h5 class="fw-bold text-primary mb-3"><i class="bi bi-telephone-inbound me-2"></i>Contact & Headquarters Information</h5>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label asp-for="Email" class="form-label small fw-semibold text-secondary"></label>
+                        <input asp-for="Email" type="email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Phone" class="form-label small fw-semibold text-secondary"></label>
+                        <input asp-for="Phone" class="form-control" />
+                        <span asp-validation-for="Phone" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-8">
+                        <label asp-for="Address" class="form-label small fw-semibold text-secondary"></label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label asp-for="CityStateZip" class="form-label small fw-semibold text-secondary"></label>
+                        <input asp-for="CityStateZip" class="form-control" />
+                        <span asp-validation-for="CityStateZip" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <h5 class="fw-bold text-primary mb-3"><i class="bi bi-share me-2"></i>Social Media Channel Links</h5>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label asp-for="FacebookUrl" class="form-label small fw-semibold text-secondary"></label>
+                        <input asp-for="FacebookUrl" class="form-control" placeholder="https://facebook.com/giveaid" />
+                        <span asp-validation-for="FacebookUrl" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="TwitterUrl" class="form-label small fw-semibold text-secondary">Twitter / X URL</label>
+                        <input asp-for="TwitterUrl" class="form-control" placeholder="https://x.com/giveaid" />
+                        <span asp-validation-for="TwitterUrl" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="InstagramUrl" class="form-label small fw-semibold text-secondary"></label>
+                        <input asp-for="InstagramUrl" class="form-control" placeholder="https://instagram.com/giveaid" />
+                        <span asp-validation-for="InstagramUrl" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="YouTubeUrl" class="form-label small fw-semibold text-secondary"></label>
+                        <input asp-for="YouTubeUrl" class="form-control" placeholder="https://youtube.com/giveaid" />
+                        <span asp-validation-for="YouTubeUrl" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <h5 class="fw-bold text-primary mb-3"><i class="bi bi-body-text me-2"></i>Public Footer Statement</h5>
+                <div class="row g-3 mb-4">
+                    <div class="col-12">
+                        <label asp-for="FooterText" class="form-label small fw-semibold text-secondary"></label>
+                        <textarea asp-for="FooterText" rows="3" class="form-control"></textarea>
+                        <span asp-validation-for="FooterText" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-12">
+                        <label asp-for="LogoFile" class="form-label small fw-semibold text-secondary">Upload Organization Logo (Leave empty to keep existing)</label>
+                        <input asp-for="LogoFile" type="file" class="form-control" accept=".jpg,.jpeg,.png,.webp" />
+                        <span asp-validation-for="LogoFile" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="pt-3 border-top d-flex flex-wrap gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg rounded-pill px-4 px-sm-5 fw-bold shadow-sm">
+                        <i class="bi bi-save me-1"></i> Save All Site Settings
+                    </button>
+                    <a asp-action="Dashboard" class="btn btn-outline-secondary btn-lg rounded-pill px-4">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

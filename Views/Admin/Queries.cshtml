@@ -1,0 +1,98 @@
+@model IEnumerable<GiveAID.Models.UserQuery>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "User Support Queries";
+    var selectedStatus = ViewBag.SelectedStatus as string ?? "All";
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+    <div>
+        <h4 class="fw-bold mb-1">User Support Queries Desk</h4>
+        <p class="text-muted small mb-0">Review questions raised by registered community members, respond, and change resolution statuses.</p>
+    </div>
+    <!-- Status Filter Pills -->
+    <div class="d-flex flex-wrap gap-2">
+        <a asp-action="Queries" asp-route-status="All" class="btn btn-sm @(selectedStatus == "All" ? "btn-dark" : "btn-outline-secondary") rounded-pill px-3">
+            All Queries
+        </a>
+        <a asp-action="Queries" asp-route-status="Pending" class="btn btn-sm @(selectedStatus == "Pending" ? "btn-warning text-dark" : "btn-outline-warning text-dark") rounded-pill px-3">
+            Pending
+        </a>
+        <a asp-action="Queries" asp-route-status="In Progress" class="btn btn-sm @(selectedStatus == "In Progress" ? "btn-info text-dark" : "btn-outline-info text-dark") rounded-pill px-3">
+            In Progress
+        </a>
+        <a asp-action="Queries" asp-route-status="Resolved" class="btn btn-sm @(selectedStatus == "Resolved" ? "btn-success" : "btn-outline-success") rounded-pill px-3">
+            Resolved
+        </a>
+    </div>
+</div>
+
+<div class="card admin-table-card border-0 shadow-sm rounded-4">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light small text-secondary">
+                <tr>
+                    <th>From</th>
+                    <th>Subject</th>
+                    <th>Message Excerpt</th>
+                    <th>Status</th>
+                    <th>Submitted</th>
+                    <th>Admin Replied</th>
+                    <th class="text-end">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="7" class="text-center py-4 text-muted">No user queries match the selected status filter.</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var q in Model)
+                    {
+                        var statusBadge = q.Status switch
+                        {
+                            "Resolved" => "bg-success",
+                            "In Progress" => "bg-info text-dark",
+                            _ => "bg-warning text-dark"
+                        };
+
+                        <tr>
+                            <td>
+                                <div class="min-w-0">
+                                    <strong class="text-dark d-block text-truncate" style="max-width: 140px;">@q.SenderName</strong>
+                                    <small class="text-muted text-truncate d-none d-md-block" style="max-width: 140px;">@q.SenderEmail</small>
+                                </div>
+                            </td>
+                            <td><strong class="text-dark text-truncate d-inline-block" style="max-width: 140px;">@q.Subject</strong></td>
+                            <td class="text-truncate text-secondary small" style="max-width: 160px;">
+                                @q.Message
+                            </td>
+                            <td>
+                                <span class="badge @statusBadge">@q.Status</span>
+                            </td>
+                            <td class="small text-muted">@q.CreatedAt.ToString("MMM dd, yyyy")</td>
+                            <td>
+                                @if (string.IsNullOrEmpty(q.AdminResponse))
+                                {
+                                    <span class="text-danger small fw-semibold"><i class="bi bi-x-circle me-1"></i>No</span>
+                                }
+                                else
+                                {
+                                    <span class="text-success small fw-semibold"><i class="bi bi-check-circle-fill me-1"></i>Yes</span>
+                                }
+                            </td>
+                            <td class="text-end">
+                                <a asp-action="QueryDetails" asp-route-id="@q.Id" class="btn btn-sm btn-primary rounded-pill px-3">
+                                    <i class="bi bi-reply-fill me-1"></i> Inspect & Reply
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

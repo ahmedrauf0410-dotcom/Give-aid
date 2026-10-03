@@ -1,0 +1,109 @@
+@model GiveAID.Models.Programme
+@{
+    ViewData["Title"] = Model.Title;
+    var interestModel = ViewBag.InterestModel as GiveAID.ViewModels.ProgrammeInterestViewModel ?? new GiveAID.ViewModels.ProgrammeInterestViewModel();
+}
+
+<div class="container py-5">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-action="Programmes">Programmes</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Title</li>
+        </ol>
+    </nav>
+
+    <div class="row g-4 g-lg-5">
+        <!-- Programme Details Column -->
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+                <img src="@Model.ImageUrl" alt="@Model.Title" class="img-fluid" style="max-height: 400px; width: 100%; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1593113598332-cd288d649433?w=1000&auto=format&fit=crop&q=80';">
+                
+                <div class="p-3 p-sm-4 p-md-5">
+                    <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                        <span class="badge bg-primary px-3 py-1 rounded-pill">@Model.Category</span>
+                        <span class="badge bg-success-subtle text-success px-3 py-1 rounded-pill">@Model.Status</span>
+                    </div>
+
+                    <h1 class="display-6 fw-bold text-dark mb-3">@Model.Title</h1>
+
+                    <div class="row g-3 p-3 bg-light rounded-4 border mb-4">
+                        <div class="col-sm-6">
+                            <span class="text-muted small d-block"><i class="bi bi-calendar3 text-primary me-1"></i>Event Date & Time</span>
+                            <strong class="text-dark">@Model.EventDate.ToString("f")</strong>
+                        </div>
+                        <div class="col-sm-6">
+                            <span class="text-muted small d-block"><i class="bi bi-geo-alt text-danger me-1"></i>Location / Venue</span>
+                            <strong class="text-dark">@Model.Location</strong>
+                        </div>
+                    </div>
+
+                    <h4 class="fw-bold text-dark mb-3">Overview & Objectives</h4>
+                    <p class="lead text-secondary mb-4">
+                        @Model.ShortDescription
+                    </p>
+
+                    <div class="text-secondary fs-5 lh-base mb-4">
+                        @Html.Raw(Model.FullDescription.Replace("\n", "<br/>"))
+                    </div>
+
+                    <div class="alert alert-info border-info d-flex align-items-center gap-3 rounded-3 mb-0">
+                        <i class="bi bi-people-fill fs-3 text-info"></i>
+                        <div>
+                            <strong>@Model.ProgrammeInterests.Count Volunteers / Participants Registered</strong>
+                            <div class="small">Join our team on the ground and help create meaningful community change.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RSVP / Participate Form Column -->
+        <div class="col-lg-5">
+            <div class="card border-0 shadow-sm rounded-4 p-3 p-sm-4 sticky-top" style="top: 80px;">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    <span class="bg-success text-white p-2 rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                        <i class="bi bi-person-check-fill"></i>
+                    </span>
+                    <h4 class="fw-bold text-dark mb-0">Interested / Participate</h4>
+                </div>
+                <p class="text-muted small mb-4">
+                    Fill out this form to register your interest in attending or volunteering for this programme.
+                </p>
+
+                <form asp-action="ProgrammeInterest" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="ProgrammeId" value="@Model.Id" />
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-secondary">Full Name</label>
+                        <input type="text" name="FullName" value="@interestModel.FullName" class="form-control" placeholder="e.g. Jane Smith" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-secondary">Email Address</label>
+                        <input type="email" name="Email" value="@interestModel.Email" class="form-control" placeholder="jane@example.com" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-secondary">Phone Number</label>
+                        <input type="tel" name="Phone" value="@interestModel.Phone" class="form-control" placeholder="+1 (555) 000-0000" />
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label small fw-semibold text-secondary">Why would you like to participate?</label>
+                        <textarea name="Message" rows="3" class="form-control" placeholder="Share your interest or skills (optional)">@interestModel.Message</textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg w-100 py-3 fw-bold rounded-pill shadow-sm">
+                        <i class="bi bi-send-check me-1"></i> Submit Participation RSVP
+                    </button>
+                </form>
+
+                <div class="text-center mt-3 text-muted small">
+                    <i class="bi bi-shield-check text-success me-1"></i> Your information is kept strictly confidential.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

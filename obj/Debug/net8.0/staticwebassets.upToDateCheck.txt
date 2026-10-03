@@ -1,0 +1,11 @@
+wwwroot\images\logo.svg
+wwwroot\js\admin.js
+wwwroot\js\site.js
+wwwroot\uploads\about\.gitkeep
+wwwroot\uploads\causes\.gitkeep
+wwwroot\uploads\gallery\.gitkeep
+wwwroot\uploads\partners\.gitkeep
+wwwroot\uploads\programmes\.gitkeep
+wwwroot\uploads\site\.gitkeep
+wwwroot\css\admin.css
+wwwroot\css\site.css

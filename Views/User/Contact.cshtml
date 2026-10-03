@@ -1,0 +1,135 @@
+@model GiveAID.ViewModels.ContactViewModel
+@{
+    ViewData["Title"] = "Contact Us - Give-AID";
+    var site = Model.SiteSetting ?? new GiveAID.Models.SiteSetting();
+}
+
+<div class="bg-primary text-white py-5 text-center">
+    <div class="container py-3">
+        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold mb-2">We Are Here For You</span>
+        <h1 class="display-4 fw-bold font-heading mb-2">Contact Give-AID</h1>
+        <p class="lead text-white-50 mx-auto mb-0" style="max-width: 650px;">
+            Have questions about our initiatives, partnership opportunities, or donation tracking? Reach out directly to our dedicated support team.
+        </p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row g-4 g-lg-5">
+        <!-- Contact Information Column -->
+        <div class="col-lg-5">
+            <div class="card border-0 shadow-sm rounded-4 p-3 p-sm-4 p-md-5 bg-dark text-white h-100">
+                <span class="badge bg-primary px-3 py-1 rounded-pill mb-3 d-inline-block text-uppercase" style="width: fit-content;">HQ Information</span>
+                <h3 class="fw-bold mb-4 font-heading text-white">Get In Touch Directly</h3>
+
+                <div class="d-flex align-items-start gap-3 mb-4">
+                    <div class="bg-primary text-white rounded-circle p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 44px; height: 44px;">
+                        <i class="bi bi-geo-alt-fill fs-5"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold text-white mb-1">Our Physical Address</h6>
+                        <p class="text-white-50 small mb-0">@site.Address<br />@site.CityStateZip</p>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-start gap-3 mb-4">
+                    <div class="bg-success text-white rounded-circle p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 44px; height: 44px;">
+                        <i class="bi bi-telephone-fill fs-5"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold text-white mb-1">Telephone</h6>
+                        <p class="text-white-50 small mb-0">@site.Phone<br /><span class="text-white-50">Mon-Fri: 9:00 AM - 6:00 PM EST</span></p>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-start gap-3 mb-4">
+                    <div class="bg-warning text-dark rounded-circle p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 44px; height: 44px;">
+                        <i class="bi bi-envelope-fill fs-5"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold text-white mb-1">Email Inquiries</h6>
+                        <p class="text-white-50 small mb-0">@site.Email<br /><span class="text-white-50">support@giveaid.org</span></p>
+                    </div>
+                </div>
+
+                <hr class="border-secondary my-4">
+
+                <h6 class="fw-bold text-white mb-3">Connect On Social Networks</h6>
+                <div class="d-flex gap-2">
+                    @if (!string.IsNullOrEmpty(site.FacebookUrl))
+                    {
+                        <a href="@site.FacebookUrl" target="_blank" class="btn btn-outline-secondary text-white rounded-circle"><i class="bi bi-facebook"></i></a>
+                    }
+                    @if (!string.IsNullOrEmpty(site.TwitterUrl))
+                    {
+                        <a href="@site.TwitterUrl" target="_blank" class="btn btn-outline-secondary text-white rounded-circle"><i class="bi bi-twitter-x"></i></a>
+                    }
+                    @if (!string.IsNullOrEmpty(site.InstagramUrl))
+                    {
+                        <a href="@site.InstagramUrl" target="_blank" class="btn btn-outline-secondary text-white rounded-circle"><i class="bi bi-instagram"></i></a>
+                    }
+                    @if (!string.IsNullOrEmpty(site.YouTubeUrl))
+                    {
+                        <a href="@site.YouTubeUrl" target="_blank" class="btn btn-outline-secondary text-white rounded-circle"><i class="bi bi-youtube"></i></a>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Message Form Column -->
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm rounded-4 p-3 p-sm-4 p-md-5">
+                <h3 class="fw-bold text-dark mb-2">Send Us A Message</h3>
+                <p class="text-muted small mb-4">
+                    Leave your details and message below. Our administrative coordinators respond within 24 business hours.
+                </p>
+
+                <form asp-action="Contact" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="Name" class="form-label small fw-semibold text-secondary"></label>
+                            <input asp-for="Name" class="form-control py-2" placeholder="Your Full Name" />
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Email" class="form-label small fw-semibold text-secondary"></label>
+                            <input asp-for="Email" type="email" class="form-control py-2" placeholder="name@example.com" />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Phone" class="form-label small fw-semibold text-secondary"></label>
+                            <input asp-for="Phone" class="form-control py-2" placeholder="+1 (555) 000-0000" />
+                            <span asp-validation-for="Phone" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Subject" class="form-label small fw-semibold text-secondary"></label>
+                            <input asp-for="Subject" class="form-control py-2" placeholder="Subject of your message" />
+                            <span asp-validation-for="Subject" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Message" class="form-label small fw-semibold text-secondary"></label>
+                            <textarea asp-for="Message" rows="5" class="form-control" placeholder="Write your detailed inquiry or feedback here..."></textarea>
+                            <span asp-validation-for="Message" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg w-100 py-3 fw-bold rounded-pill shadow-sm">
+                                <i class="bi bi-send-fill me-1"></i> Transmit Message
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

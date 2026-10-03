@@ -1,0 +1,217 @@
+@model GiveAID.ViewModels.AboutViewModel
+@{
+    ViewData["Title"] = "About Give-AID - Our Story & Governance";
+}
+
+<!-- About Header Banner -->
+<section class="bg-dark text-white py-5 text-center position-relative">
+    <div class="container py-4">
+        <span class="badge bg-primary px-3 py-2 rounded-pill fw-semibold mb-2">Dedicated To Humanitarian Service</span>
+        <h1 class="display-4 fw-bold font-heading mb-3">About Give-AID</h1>
+        <p class="lead text-white-50 mx-auto mb-0" style="max-width: 680px;">
+            Learn about our core mission, transparent leadership, nationwide welfare programs, and milestones achieved together with our community.
+        </p>
+    </div>
+</section>
+
+<!-- Sub-navigation anchor links (Desktop & Mobile Scrollable Bar) -->
+<div class="bg-light border-bottom sticky-top py-2 shadow-sm" style="top: 58px; z-index: 1020;">
+    <div class="container">
+        <div class="d-flex overflow-auto py-1 justify-content-start justify-content-md-center gap-3 gap-md-4 small fw-semibold text-nowrap" style="-webkit-overflow-scrolling: touch;">
+            <a href="#what-we-do" class="text-secondary text-decoration-none hover-primary">What We Do</a>
+            <a href="#our-mission" class="text-secondary text-decoration-none hover-primary">Our Mission</a>
+            <a href="#our-team" class="text-secondary text-decoration-none hover-primary">Our Team</a>
+            <a href="#career" class="text-secondary text-decoration-none hover-primary">Career With Us</a>
+            <a href="#achievements" class="text-secondary text-decoration-none hover-primary">Achievements</a>
+            <a href="#supporters" class="text-secondary text-decoration-none hover-primary">Supporters</a>
+            <a href="#read-about-us" class="text-secondary text-decoration-none hover-primary">Read About Us</a>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5">
+    
+    <!-- 1. WHAT WE DO -->
+    @if (Model.WhatWeDo != null && Model.WhatWeDo.IsActive)
+    {
+        <section id="what-we-do" class="py-4 border-bottom">
+            <div class="row align-items-center g-4 g-lg-5">
+                <div class="col-lg-6">
+                    <span class="badge bg-primary-subtle text-primary px-3 py-1 rounded-pill fw-bold text-uppercase mb-2">Section 1</span>
+                    <h2 class="display-6 fw-bold mb-3 font-heading">@Model.WhatWeDo.Title</h2>
+                    @if (!string.IsNullOrEmpty(Model.WhatWeDo.Subtitle))
+                    {
+                        <p class="lead text-primary fw-medium mb-3">@Model.WhatWeDo.Subtitle</p>
+                    }
+                    <div class="text-secondary fs-5 lh-base">
+                        @Html.Raw(Model.WhatWeDo.Content.Replace("\n", "<br/>"))
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                        <img src="@Model.WhatWeDo.ImageUrl" alt="@Model.WhatWeDo.Title" class="img-fluid w-100" style="height: clamp(240px, 35vw, 360px); object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800&auto=format&fit=crop&q=80';">
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+
+    <!-- 2. OUR MISSION -->
+    @if (Model.OurMission != null && Model.OurMission.IsActive)
+    {
+        <section id="our-mission" class="py-5 border-bottom">
+            <div class="row align-items-center g-4 g-lg-5 flex-lg-row-reverse">
+                <div class="col-lg-6">
+                    <span class="badge bg-warning-subtle text-warning-emphasis px-3 py-1 rounded-pill fw-bold text-uppercase mb-2">Section 2</span>
+                    <h2 class="display-6 fw-bold mb-3 font-heading">@Model.OurMission.Title</h2>
+                    @if (!string.IsNullOrEmpty(Model.OurMission.Subtitle))
+                    {
+                        <p class="lead text-warning-emphasis fw-medium mb-3">@Model.OurMission.Subtitle</p>
+                    }
+                    <div class="text-secondary fs-5 lh-base">
+                        @Html.Raw(Model.OurMission.Content.Replace("\n", "<br/>"))
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                        <img src="@Model.OurMission.ImageUrl" alt="@Model.OurMission.Title" class="img-fluid w-100" style="height: clamp(240px, 35vw, 360px); object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1593113598332-cd288d649433?w=800&auto=format&fit=crop&q=80';">
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+
+    <!-- 3. OUR TEAM -->
+    @if (Model.OurTeam != null && Model.OurTeam.IsActive)
+    {
+        <section id="our-team" class="py-5 border-bottom">
+            <div class="row align-items-center g-4 g-lg-5">
+                <div class="col-lg-6">
+                    <span class="badge bg-info-subtle text-info px-3 py-1 rounded-pill fw-bold text-uppercase mb-2">Section 3</span>
+                    <h2 class="display-6 fw-bold mb-3 font-heading">@Model.OurTeam.Title</h2>
+                    @if (!string.IsNullOrEmpty(Model.OurTeam.Subtitle))
+                    {
+                        <p class="lead text-info fw-medium mb-3">@Model.OurTeam.Subtitle</p>
+                    }
+                    <div class="text-secondary fs-5 lh-base">
+                        @Html.Raw(Model.OurTeam.Content.Replace("\n", "<br/>"))
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                        <img src="@Model.OurTeam.ImageUrl" alt="@Model.OurTeam.Title" class="img-fluid w-100" style="height: clamp(240px, 35vw, 360px); object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format&fit=crop&q=80';">
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+
+    <!-- 4. CAREER WITH US -->
+    @if (Model.CareerWithUs != null && Model.CareerWithUs.IsActive)
+    {
+        <section id="career" class="py-5 border-bottom">
+            <div class="row align-items-center g-4 g-lg-5 flex-lg-row-reverse">
+                <div class="col-lg-6">
+                    <span class="badge bg-success-subtle text-success px-3 py-1 rounded-pill fw-bold text-uppercase mb-2">Section 4</span>
+                    <h2 class="display-6 fw-bold mb-3 font-heading">@Model.CareerWithUs.Title</h2>
+                    @if (!string.IsNullOrEmpty(Model.CareerWithUs.Subtitle))
+                    {
+                        <p class="lead text-success fw-medium mb-3">@Model.CareerWithUs.Subtitle</p>
+                    }
+                    <div class="text-secondary fs-5 lh-base mb-4">
+                        @Html.Raw(Model.CareerWithUs.Content.Replace("\n", "<br/>"))
+                    </div>
+                    <a asp-controller="User" asp-action="Contact" class="btn btn-outline-success rounded-pill px-4 py-2 fw-semibold">
+                        <i class="bi bi-briefcase me-1"></i> Inquire About Careers / Fellowships
+                    </a>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                        <img src="@Model.CareerWithUs.ImageUrl" alt="@Model.CareerWithUs.Title" class="img-fluid w-100" style="height: clamp(240px, 35vw, 360px); object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&auto=format&fit=crop&q=80';">
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+
+    <!-- 5. OUR ACHIEVEMENTS -->
+    @if (Model.OurAchievements != null && Model.OurAchievements.IsActive)
+    {
+        <section id="achievements" class="py-5 border-bottom">
+            <div class="row align-items-center g-4 g-lg-5">
+                <div class="col-lg-6">
+                    <span class="badge bg-danger-subtle text-danger px-3 py-1 rounded-pill fw-bold text-uppercase mb-2">Section 5</span>
+                    <h2 class="display-6 fw-bold mb-3 font-heading">@Model.OurAchievements.Title</h2>
+                    @if (!string.IsNullOrEmpty(Model.OurAchievements.Subtitle))
+                    {
+                        <p class="lead text-danger fw-medium mb-3">@Model.OurAchievements.Subtitle</p>
+                    }
+                    <div class="text-secondary fs-5 lh-base">
+                        @Html.Raw(Model.OurAchievements.Content.Replace("\n", "<br/>"))
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                        <img src="@Model.OurAchievements.ImageUrl" alt="@Model.OurAchievements.Title" class="img-fluid w-100" style="height: clamp(240px, 35vw, 360px); object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1542810634-71277d95dcbb?w=800&auto=format&fit=crop&q=80';">
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+
+    <!-- 6. OUR SUPPORTERS -->
+    @if (Model.OurSupporters != null && Model.OurSupporters.IsActive)
+    {
+        <section id="supporters" class="py-5 border-bottom">
+            <div class="row align-items-center g-4 g-lg-5 flex-lg-row-reverse">
+                <div class="col-lg-6">
+                    <span class="badge bg-secondary-subtle text-secondary px-3 py-1 rounded-pill fw-bold text-uppercase mb-2">Section 6</span>
+                    <h2 class="display-6 fw-bold mb-3 font-heading">@Model.OurSupporters.Title</h2>
+                    @if (!string.IsNullOrEmpty(Model.OurSupporters.Subtitle))
+                    {
+                        <p class="lead text-secondary fw-medium mb-3">@Model.OurSupporters.Subtitle</p>
+                    }
+                    <div class="text-secondary fs-5 lh-base mb-4">
+                        @Html.Raw(Model.OurSupporters.Content.Replace("\n", "<br/>"))
+                    </div>
+                    <a asp-controller="User" asp-action="Donate" class="btn btn-warning rounded-pill px-4 py-2 fw-bold text-dark">
+                        <i class="bi bi-heart-fill text-danger me-1"></i> Join Our Supporters
+                    </a>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                        <img src="@Model.OurSupporters.ImageUrl" alt="@Model.OurSupporters.Title" class="img-fluid w-100" style="height: clamp(240px, 35vw, 360px); object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=800&auto=format&fit=crop&q=80';">
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+
+    <!-- 7. READ ABOUT US -->
+    @if (Model.ReadAboutUs != null && Model.ReadAboutUs.IsActive)
+    {
+        <section id="read-about-us" class="py-5">
+            <div class="row align-items-center g-4 g-lg-5">
+                <div class="col-lg-6">
+                    <span class="badge bg-dark-subtle text-dark px-3 py-1 rounded-pill fw-bold text-uppercase mb-2">Section 7</span>
+                    <h2 class="display-6 fw-bold mb-3 font-heading">@Model.ReadAboutUs.Title</h2>
+                    @if (!string.IsNullOrEmpty(Model.ReadAboutUs.Subtitle))
+                    {
+                        <p class="lead text-dark fw-medium mb-3">@Model.ReadAboutUs.Subtitle</p>
+                    }
+                    <div class="text-secondary fs-5 lh-base mb-4">
+                        @Html.Raw(Model.ReadAboutUs.Content.Replace("\n", "<br/>"))
+                    </div>
+                    <a asp-controller="User" asp-action="HelpCentre" class="btn btn-outline-dark rounded-pill px-4 py-2 fw-semibold">
+                        <i class="bi bi-question-circle me-1"></i> Review FAQs & Reports
+                    </a>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                        <img src="@Model.ReadAboutUs.ImageUrl" alt="@Model.ReadAboutUs.Title" class="img-fluid w-100" style="height: clamp(240px, 35vw, 360px); object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&auto=format&fit=crop&q=80';">
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+</div>

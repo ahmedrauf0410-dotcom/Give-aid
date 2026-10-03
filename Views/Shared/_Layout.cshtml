@@ -1,0 +1,290 @@
+@inject GiveAID.Services.ISiteSettingService SiteSettingsService
+@{
+    var site = await SiteSettingsService.GetSettingsAsync();
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - @site.NgoName</title>
+    
+    <!-- Google Fonts & Bootstrap 5.3 & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- Custom Site Styles -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        /* Globally hide scrollbars and sliders across all browsers */
+        * {
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
+        }
+        *::-webkit-scrollbar,
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
+            background: transparent !important;
+        }
+        html, body {
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
+        }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- Top Notification / Emergency Bar -->
+    <div class="top-bar text-white py-1 small">
+        <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <div class="d-flex align-items-center gap-2 gap-sm-3 min-w-0">
+                <span class="text-truncate"><i class="bi bi-geo-alt-fill text-danger me-1"></i>@site.CityStateZip</span>
+                <span class="d-none d-md-inline"><i class="bi bi-telephone-fill text-success me-1"></i>@site.Phone</span>
+                <span class="d-none d-lg-inline"><i class="bi bi-envelope-fill text-warning me-1"></i>@site.Email</span>
+            </div>
+            <div class="d-flex align-items-center gap-2 flex-shrink-0 ms-auto ms-sm-0">
+                @if (!string.IsNullOrEmpty(site.FacebookUrl))
+                {
+                    <a href="@site.FacebookUrl" target="_blank" class="text-white-50 hover-white" title="Facebook"><i class="bi bi-facebook"></i></a>
+                }
+                @if (!string.IsNullOrEmpty(site.TwitterUrl))
+                {
+                    <a href="@site.TwitterUrl" target="_blank" class="text-white-50 hover-white" title="X/Twitter"><i class="bi bi-twitter-x"></i></a>
+                }
+                @if (!string.IsNullOrEmpty(site.InstagramUrl))
+                {
+                    <a href="@site.InstagramUrl" target="_blank" class="text-white-50 hover-white" title="Instagram"><i class="bi bi-instagram"></i></a>
+                }
+                @if (!string.IsNullOrEmpty(site.YouTubeUrl))
+                {
+                    <a href="@site.YouTubeUrl" target="_blank" class="text-white-50 hover-white" title="YouTube"><i class="bi bi-youtube"></i></a>
+                }
+                <span class="text-white-50 ms-1 d-none d-sm-inline">|</span>
+                <a asp-controller="User" asp-action="InviteFriends" class="text-white text-decoration-none ms-1 d-none d-sm-inline">
+                    <i class="bi bi-person-plus-fill me-1 text-warning"></i>Invite Friends
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation Bar -->
+    <nav class="navbar navbar-expand-xl navbar-light bg-white shadow-sm sticky-top py-2">
+        <div class="container-fluid px-3 px-md-4 px-xl-5">
+            <a class="navbar-brand d-flex align-items-center gap-2 py-1 flex-shrink-0" asp-controller="User" asp-action="Index">
+                <div class="brand-icon-wrapper text-white rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 38px; height: 38px; background-color: var(--primary-color);">
+                    <i class="bi bi-heart-pulse-fill fs-5"></i>
+                </div>
+                <div class="lh-1">
+                    <span class="fw-bolder font-heading text-tracking" style="font-size: clamp(1.1rem, 2.5vw, 1.4rem); color: var(--primary-color);">@site.NgoName</span>
+                    <span class="badge bg-danger-subtle text-danger ms-1 fw-semibold small">NGO</span>
+                </div>
+            </a>
+
+            <button class="navbar-toggler border-0 shadow-none px-2" type="button" data-bs-toggle="collapse" data-bs-target="#giveAidNavbar" aria-controls="giveAidNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="giveAidNavbar">
+                <ul class="navbar-nav mx-auto mb-2 mb-xl-0 fw-medium">
+                    <li class="nav-item">
+                        <a class="nav-link px-2 px-xxl-3" asp-controller="User" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-2 px-xxl-3" asp-controller="User" asp-action="About">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-2 px-xxl-3" asp-controller="User" asp-action="Causes">Causes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-2 px-xxl-3" asp-controller="User" asp-action="Programmes">Programmes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-2 px-xxl-3" asp-controller="User" asp-action="Partners">Our Partners</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-2 px-xxl-3" asp-controller="User" asp-action="Gallery">Gallery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-2 px-xxl-3" asp-controller="User" asp-action="HelpCentre">Help Centre</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-2 px-xxl-3" asp-controller="User" asp-action="Contact">Contact Us</a>
+                    </li>
+                </ul>
+
+                <div class="d-flex flex-column flex-xl-row align-items-stretch align-items-xl-center gap-2 pt-3 pt-xl-0 border-top border-xl-0 flex-shrink-0">
+                    <a asp-controller="User" asp-action="Donate" class="btn btn-warning fw-bold px-3 py-2 shadow-sm rounded-pill text-dark d-flex align-items-center justify-content-center gap-1 text-nowrap">
+                        <i class="bi bi-heart-fill text-danger"></i>
+                        <span>Donate Now</span>
+                    </a>
+
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        if (User.IsInRole("Admin"))
+                        {
+                            <div class="dropdown">
+                                <button class="btn btn-outline-danger dropdown-toggle rounded-pill px-3 py-2 fw-semibold w-100 text-nowrap" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-shield-lock-fill me-1"></i> Admin Portal
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
+                                    <li><a class="dropdown-item" asp-controller="Admin" asp-action="Dashboard"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Admin" asp-action="AboutSections"><i class="bi bi-pencil-square me-2"></i>Manage About Us</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Admin" asp-action="Donations"><i class="bi bi-cash-stack me-2"></i>Audit Donations</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <form asp-controller="Account" asp-action="AdminLogout" method="post" class="d-inline">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="dropdown-item text-danger"><i class="bi bi-box-arrow-right me-2"></i>Admin Sign Out</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="dropdown">
+                                <button class="btn btn-outline-primary dropdown-toggle rounded-pill px-3 py-2 fw-semibold w-100 text-nowrap" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-person-circle me-1"></i> @User.Identity.Name
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
+                                    <li><a class="dropdown-item" asp-controller="User" asp-action="Profile"><i class="bi bi-person me-2"></i>My Giving Profile</a></li>
+                                    <li><a class="dropdown-item" asp-controller="User" asp-action="Queries"><i class="bi bi-chat-left-dots me-2"></i>My Queries</a></li>
+                                    <li><a class="dropdown-item" asp-controller="User" asp-action="InviteFriends"><i class="bi bi-people me-2"></i>Invite Friends</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="dropdown-item text-danger"><i class="bi bi-box-arrow-right me-2"></i>Sign Out</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="d-flex align-items-center gap-2">
+                            <a asp-controller="Account" asp-action="Login" class="btn btn-outline-primary rounded-pill px-3 py-2 fw-semibold flex-fill text-center text-nowrap">
+                                <i class="bi bi-box-arrow-in-right me-1"></i>Login
+                            </a>
+                            <a asp-controller="Account" asp-action="Register" class="btn btn-primary rounded-pill px-3 py-2 fw-semibold flex-fill text-center text-nowrap">
+                                Register
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Global Alert Notifications -->
+    <div class="container">
+        <partial name="_AlertMessages" />
+    </div>
+
+    <!-- Main Dynamic Body -->
+    <main role="main" class="flex-grow-1">
+        @RenderBody()
+    </main>
+
+    <!-- Main Footer -->
+    <footer class="bg-dark text-white pt-5 pb-3 mt-auto">
+        <div class="container">
+            <div class="row g-4 pb-4 border-bottom border-secondary">
+                <!-- NGO Info -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="text-white rounded-circle p-2 d-flex align-items-center justify-content-center shadow-sm" style="width: 40px; height: 40px; background-color: var(--primary-color);">
+                            <i class="bi bi-heart-pulse-fill"></i>
+                        </div>
+                        <h4 class="fw-bold mb-0 text-white font-heading">@site.NgoName</h4>
+                    </div>
+                    <p class="text-white-50 small mb-3">
+                        @site.FooterText
+                    </p>
+                    <div class="d-flex gap-2">
+                        @if (!string.IsNullOrEmpty(site.FacebookUrl))
+                        {
+                            <a href="@site.FacebookUrl" target="_blank" class="btn btn-outline-secondary btn-sm text-white rounded-circle"><i class="bi bi-facebook"></i></a>
+                        }
+                        @if (!string.IsNullOrEmpty(site.TwitterUrl))
+                        {
+                            <a href="@site.TwitterUrl" target="_blank" class="btn btn-outline-secondary btn-sm text-white rounded-circle"><i class="bi bi-twitter-x"></i></a>
+                        }
+                        @if (!string.IsNullOrEmpty(site.InstagramUrl))
+                        {
+                            <a href="@site.InstagramUrl" target="_blank" class="btn btn-outline-secondary btn-sm text-white rounded-circle"><i class="bi bi-instagram"></i></a>
+                        }
+                        @if (!string.IsNullOrEmpty(site.YouTubeUrl))
+                        {
+                            <a href="@site.YouTubeUrl" target="_blank" class="btn btn-outline-secondary btn-sm text-white rounded-circle"><i class="bi bi-youtube"></i></a>
+                        }
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="col-lg-2 col-md-6">
+                    <h5 class="fw-bold text-white mb-3 font-heading">Quick Links</h5>
+                    <ul class="list-unstyled small text-white-50 d-flex flex-column gap-2">
+                        <li><a asp-controller="User" asp-action="Index" class="text-white-50 text-decoration-none hover-white">Home</a></li>
+                        <li><a asp-controller="User" asp-action="About" class="text-white-50 text-decoration-none hover-white">About Us</a></li>
+                        <li><a asp-controller="User" asp-action="Causes" class="text-white-50 text-decoration-none hover-white">Donation Causes</a></li>
+                        <li><a asp-controller="User" asp-action="Programmes" class="text-white-50 text-decoration-none hover-white">Programmes</a></li>
+                        <li><a asp-controller="User" asp-action="Partners" class="text-white-50 text-decoration-none hover-white">Our Partners</a></li>
+                        <li><a asp-controller="User" asp-action="Gallery" class="text-white-50 text-decoration-none hover-white">Gallery</a></li>
+                    </ul>
+                </div>
+
+                <!-- Welfare Resources -->
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="fw-bold text-white mb-3 font-heading">Community & Help</h5>
+                    <ul class="list-unstyled small text-white-50 d-flex flex-column gap-2">
+                        <li><a asp-controller="User" asp-action="HelpCentre" class="text-white-50 text-decoration-none hover-white">Help Centre & FAQs</a></li>
+                        <li><a asp-controller="User" asp-action="Donate" class="text-white-50 text-decoration-none hover-white">Online Donation Simulation</a></li>
+                        <li><a asp-controller="User" asp-action="InviteFriends" class="text-white-50 text-decoration-none hover-white">Invite Your Friends</a></li>
+                        <li><a asp-controller="User" asp-action="Queries" class="text-white-50 text-decoration-none hover-white">Member Queries Support</a></li>
+                        <li><a asp-controller="Account" asp-action="Register" class="text-white-50 text-decoration-none hover-white">Become a Registered Member</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="fw-bold text-white mb-3 font-heading">Headquarters</h5>
+                    <div class="small text-white-50 d-flex flex-column gap-2">
+                        <p class="mb-0"><i class="bi bi-geo-alt-fill text-danger me-2"></i>@site.Address, @site.CityStateZip</p>
+                        <p class="mb-0"><i class="bi bi-telephone-fill text-success me-2"></i>@site.Phone</p>
+                        <p class="mb-0"><i class="bi bi-envelope-fill text-warning me-2"></i>@site.Email</p>
+                        <div class="mt-2 pt-2 border-top border-secondary">
+                            <span class="badge bg-success-subtle text-success me-1">Tax-Exempt</span>
+                            <span class="badge bg-primary-subtle text-primary">Certified NGO</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2 pt-3 small text-white-50 text-center text-sm-start">
+                <div>
+                    &copy; @DateTime.UtcNow.Year <strong>@site.NgoName</strong>. All rights reserved. Dedicated to humanitarian welfare.
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="badge bg-secondary">Demo Card Simulation Mode</span>
+                    <a asp-controller="Account" asp-action="AdminLogin" class="text-white-50 text-decoration-none hover-white">
+                        <i class="bi bi-shield-lock me-1"></i>Admin Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

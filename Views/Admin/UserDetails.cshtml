@@ -1,0 +1,132 @@
+@model GiveAID.Models.User
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = $"Member Profile - {Model.FullName}";
+    var totalDonated = Model.Donations.Where(d => d.PaymentStatus == "Successful").Sum(d => d.Amount);
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white mb-4">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4 pb-3 border-bottom">
+                <div>
+                    <span class="badge @(Model.IsActive ? "bg-success-subtle text-success" : "bg-danger-subtle text-danger") px-3 py-1 rounded-pill mb-1">
+                        @(Model.IsActive ? "Active Member" : "Account Suspended")
+                    </span>
+                    <h3 class="fw-bold text-dark mb-0">@Model.FullName</h3>
+                    <small class="text-muted">Member since @Model.CreatedAt.ToString("MMMM dd, yyyy")</small>
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                    <form asp-action="ToggleUserStatus" asp-route-id="@Model.Id" method="post" class="d-inline">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-sm @(Model.IsActive ? "btn-outline-warning" : "btn-outline-success") rounded-pill px-3">
+                            <i class="bi @(Model.IsActive ? "bi-person-slash" : "bi-person-check") me-1"></i>
+                            @(Model.IsActive ? "Deactivate User" : "Activate User")
+                        </button>
+                    </form>
+                    <a asp-action="Users" class="btn btn-outline-secondary rounded-pill px-3 btn-sm">
+                        &larr; Back to Members
+                    </a>
+                </div>
+            </div>
+
+            <!-- Profile Summary Grid -->
+            <div class="row g-4 mb-4">
+                <div class="col-sm-6 col-md-3">
+                    <small class="text-muted text-uppercase fw-semibold d-block">Email Address</small>
+                    <a href="mailto:@Model.Email" class="fw-bold text-primary">@Model.Email</a>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <small class="text-muted text-uppercase fw-semibold d-block">Phone</small>
+                    <strong class="text-dark">@(Model.Phone ?? "N/A")</strong>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <small class="text-muted text-uppercase fw-semibold d-block">City / Address</small>
+                    <strong class="text-dark">@(Model.City ?? "N/A")</strong>
+                    <div class="small text-muted">@(Model.Address ?? "")</div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <small class="text-muted text-uppercase fw-semibold d-block">Profession</small>
+                    <strong class="text-dark">@(Model.Profession ?? "N/A")</strong>
+                </div>
+            </div>
+
+            <!-- Donation History for this member -->
+            <div class="mb-4">
+                <h5 class="fw-bold text-dark mb-3"><i class="bi bi-cash-stack text-success me-2"></i>Giving Record ($@totalDonated.ToString("N2") Total)</h5>
+                @if (!Model.Donations.Any())
+                {
+                    <p class="text-muted small">This user has not initiated any donations yet.</p>
+                }
+                else
+                {
+                    <div class="table-responsive border rounded-3">
+                        <table class="table table-hover align-middle mb-0 small">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Ref #</th>
+                                    <th>Cause</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Card</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var d in Model.Donations.OrderByDescending(x => x.DonationDate))
+                                {
+                                    <tr>
+                                        <td class="font-monospace text-primary fw-semibold">@d.TransactionReference</td>
+                                        <td>@d.DonationCause.Name</td>
+                                        <td class="fw-bold text-success">$@d.Amount.ToString("N2")</td>
+                                        <td>@d.DonationDate.ToString("MMM dd, yyyy")</td>
+                                        <td class="font-monospace">...@d.MaskedCardNumber.Substring(d.MaskedCardNumber.Length - 4)</td>
+                                        <td><span class="badge bg-success">@d.PaymentStatus</span></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+
+            <!-- Programme RSVPs -->
+            <div>
+                <h5 class="fw-bold text-dark mb-3"><i class="bi bi-calendar2-check text-primary me-2"></i>Programme RSVPs & Interests</h5>
+                @if (!Model.ProgrammeInterests.Any())
+                {
+                    <p class="text-muted small">No programme registrations recorded for this member.</p>
+                }
+                else
+                {
+                    <div class="table-responsive border rounded-3">
+                        <table class="table table-hover align-middle mb-0 small">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Programme Title</th>
+                                    <th>Date</th>
+                                    <th>Location</th>
+                                    <th>Message</th>
+                                    <th>RSVP Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var i in Model.ProgrammeInterests.OrderByDescending(x => x.CreatedAt))
+                                {
+                                    <tr>
+                                        <td><strong>@i.Programme.Title</strong></td>
+                                        <td>@i.Programme.EventDate.ToString("MMM dd, yyyy")</td>
+                                        <td>@i.Programme.Location</td>
+                                        <td class="text-muted">@(i.Message ?? "None")</td>
+                                        <td>@i.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>

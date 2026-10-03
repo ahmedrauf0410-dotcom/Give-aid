@@ -1,0 +1,115 @@
+@model IEnumerable<GiveAID.Models.Donation>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Audit Donations";
+    var causes = ViewBag.Causes as IEnumerable<GiveAID.Models.DonationCause> ?? new List<GiveAID.Models.DonationCause>();
+    int? selectedCauseId = ViewBag.SelectedCauseId as int?;
+    string selectedStatus = ViewBag.SelectedStatus as string ?? "All";
+    decimal totalFilteredAmount = ViewBag.TotalFilteredAmount != null ? (decimal)ViewBag.TotalFilteredAmount : 0;
+}
+
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
+    <div>
+        <h4 class="fw-bold mb-1">Donation Audit & Transactions</h4>
+        <p class="text-muted small mb-0">Review all simulated donor contributions, filter by campaign cause, and verify receipts.</p>
+    </div>
+    <div class="card p-2 px-3 border-0 bg-success-subtle rounded-pill text-success fw-bold text-nowrap">
+        <i class="bi bi-wallet2 me-1"></i> Filtered Total: $@totalFilteredAmount.ToString("N2")
+    </div>
+</div>
+
+<!-- Filters Bar -->
+<div class="card border-0 shadow-sm rounded-4 p-3 mb-4 bg-white">
+    <form asp-action="Donations" method="get" class="row g-3 align-items-end">
+        <div class="col-12 col-md-5">
+            <label class="form-label small fw-semibold text-secondary">Filter by Welfare Cause</label>
+            <select name="causeId" class="form-select">
+                <option value="">-- All Causes --</option>
+                @foreach (var c in causes)
+                {
+                    <option value="@c.Id" selected="@(selectedCauseId == c.Id ? "selected" : null)">@c.Name</option>
+                }
+            </select>
+        </div>
+        <div class="col-12 col-md-4">
+            <label class="form-label small fw-semibold text-secondary">Payment Status</label>
+            <select name="status" class="form-select">
+                <option value="All" selected="@(selectedStatus == "All" ? "selected" : null)">All Statuses</option>
+                <option value="Successful" selected="@(selectedStatus == "Successful" ? "selected" : null)">Successful</option>
+                <option value="Failed" selected="@(selectedStatus == "Failed" ? "selected" : null)">Failed</option>
+            </select>
+        </div>
+        <div class="col-12 col-md-3 d-flex gap-2">
+            <button type="submit" class="btn btn-primary flex-fill rounded-pill fw-semibold text-nowrap">
+                <i class="bi bi-funnel me-1"></i> Apply
+            </button>
+            <a asp-action="Donations" class="btn btn-outline-secondary rounded-pill px-3 text-nowrap">Reset</a>
+        </div>
+    </form>
+</div>
+
+<!-- Donations Table -->
+<div class="card admin-table-card border-0 shadow-sm rounded-4 overflow-hidden">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0 text-nowrap">
+            <thead class="table-light small text-secondary">
+                <tr>
+                    <th>Reference ID</th>
+                    <th>Donor Name & Email</th>
+                    <th>Cause</th>
+                    <th>Amount</th>
+                    <th>Masked Card</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th class="text-end">Receipt</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="8" class="text-center py-4 text-muted">No donation transactions match the selected filters.</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var don in Model)
+                    {
+                        <tr>
+                            <td class="font-monospace fw-bold text-primary">@don.TransactionReference</td>
+                            <td>
+                                <strong class="text-dark d-block">@don.DonorName</strong>
+                                <small class="text-muted">@don.DonorEmail</small>
+                                @if (don.UserId.HasValue)
+                                {
+                                    <span class="badge bg-primary-subtle text-primary small ms-1">Member</span>
+                                }
+                            </td>
+                            <td>
+                                <span class="badge bg-light text-dark border">@don.DonationCause.Name</span>
+                            </td>
+                            <td class="fw-bold text-success fs-6">$@don.Amount.ToString("N2")</td>
+                            <td class="font-monospace small text-muted">@don.MaskedCardNumber</td>
+                            <td class="small text-muted">@don.DonationDate.ToString("MMM dd, yyyy HH:mm")</td>
+                            <td>
+                                @if (don.PaymentStatus == "Successful")
+                                {
+                                    <span class="badge bg-success-subtle text-success">Successful</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger-subtle text-danger">@don.PaymentStatus</span>
+                                }
+                            </td>
+                            <td class="text-end">
+                                <a asp-action="DonationDetails" asp-route-id="@don.Id" class="btn btn-sm btn-light border rounded-pill px-3">
+                                    <i class="bi bi-receipt me-1"></i> Inspect
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

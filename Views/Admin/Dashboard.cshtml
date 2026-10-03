@@ -1,0 +1,318 @@
+@model GiveAID.ViewModels.AdminDashboardViewModel
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<!-- Top Metrics Grid -->
+<div class="row g-3 mb-4">
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="stat-card d-flex align-items-center justify-content-between">
+            <div>
+                <small class="text-muted text-uppercase fw-bold" style="font-size: 0.72rem;">Total Funds Raised</small>
+                <h3 class="fw-bold text-success mb-0 mt-1">$@Model.TotalDonationAmount.ToString("N2")</h3>
+                <small class="text-success"><i class="bi bi-arrow-up-circle me-1"></i>@Model.TotalDonations Verified</small>
+            </div>
+            <div class="stat-icon-wrapper bg-success-subtle text-success">
+                <i class="bi bi-cash-stack"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="stat-card d-flex align-items-center justify-content-between">
+            <div>
+                <small class="text-muted text-uppercase fw-bold" style="font-size: 0.72rem;">Registered Members</small>
+                <h3 class="fw-bold text-primary mb-0 mt-1">@Model.TotalUsers</h3>
+                <small class="text-primary"><i class="bi bi-people me-1"></i>Active Donors & Volunteers</small>
+            </div>
+            <div class="stat-icon-wrapper bg-primary-subtle text-primary">
+                <i class="bi bi-people-fill"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="stat-card d-flex align-items-center justify-content-between">
+            <div>
+                <small class="text-muted text-uppercase fw-bold" style="font-size: 0.72rem;">Welfare Causes</small>
+                <h3 class="fw-bold text-dark mb-0 mt-1">@Model.TotalCauses</h3>
+                <small class="text-muted"><i class="bi bi-heart-pulse me-1"></i>Active Campaigns</small>
+            </div>
+            <div class="stat-icon-wrapper bg-danger-subtle text-danger">
+                <i class="bi bi-heart-pulse-fill"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="stat-card d-flex align-items-center justify-content-between">
+            <div>
+                <small class="text-muted text-uppercase fw-bold" style="font-size: 0.72rem;">Support Queries</small>
+                <h3 class="fw-bold text-info mb-0 mt-1">@Model.TotalQueries</h3>
+                <small class="text-warning"><i class="bi bi-hourglass-split me-1"></i>@Model.TotalPendingQueries Pending</small>
+            </div>
+            <div class="stat-icon-wrapper bg-info-subtle text-info">
+                <i class="bi bi-chat-dots-fill"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="stat-card d-flex align-items-center justify-content-between">
+            <div>
+                <small class="text-muted text-uppercase fw-bold" style="font-size: 0.72rem;">Active Programmes</small>
+                <h4 class="fw-bold text-dark mb-0 mt-1">@Model.TotalProgrammes</h4>
+                <small class="text-muted">Field Events & Drives</small>
+            </div>
+            <div class="stat-icon-wrapper bg-secondary-subtle text-secondary">
+                <i class="bi bi-calendar2-event-fill"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="stat-card d-flex align-items-center justify-content-between">
+            <div>
+                <small class="text-muted text-uppercase fw-bold" style="font-size: 0.72rem;">Programme RSVPs</small>
+                <h4 class="fw-bold text-dark mb-0 mt-1">@Model.TotalProgrammeInterests</h4>
+                <small class="text-muted">Registered Participants</small>
+            </div>
+            <div class="stat-icon-wrapper bg-warning-subtle text-warning">
+                <i class="bi bi-ticket-perforated-fill"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="stat-card d-flex align-items-center justify-content-between">
+            <div>
+                <small class="text-muted text-uppercase fw-bold" style="font-size: 0.72rem;">NGO Partners</small>
+                <h4 class="fw-bold text-dark mb-0 mt-1">@Model.TotalPartners</h4>
+                <small class="text-muted">Strategic Alliances</small>
+            </div>
+            <div class="stat-icon-wrapper bg-success-subtle text-success">
+                <i class="bi bi-building"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="stat-card d-flex align-items-center justify-content-between">
+            <div>
+                <small class="text-muted text-uppercase fw-bold" style="font-size: 0.72rem;">Gallery Photos</small>
+                <h4 class="fw-bold text-dark mb-0 mt-1">@Model.TotalGalleryImages</h4>
+                <small class="text-muted">Field Media Assets</small>
+            </div>
+            <div class="stat-icon-wrapper bg-warning-subtle text-warning">
+                <i class="bi bi-images"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions Toolbar -->
+<div class="card border-0 shadow-sm rounded-4 p-3 mb-4 bg-white">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+        <span class="fw-bold text-secondary small text-uppercase">Quick Management Shortcuts:</span>
+        <div class="d-flex flex-wrap gap-2">
+            <a asp-action="CreateCause" class="btn btn-outline-primary btn-sm rounded-pill">
+                <i class="bi bi-plus-circle me-1"></i> New Cause
+            </a>
+            <a asp-action="CreateProgramme" class="btn btn-outline-info btn-sm rounded-pill">
+                <i class="bi bi-plus-circle me-1"></i> New Programme
+            </a>
+            <a asp-action="AboutSections" class="btn btn-outline-warning text-dark btn-sm rounded-pill">
+                <i class="bi bi-journal-text me-1"></i> Edit About Us
+            </a>
+            <a asp-action="CreateGalleryItem" class="btn btn-outline-secondary btn-sm rounded-pill">
+                <i class="bi bi-upload me-1"></i> Upload Photo
+            </a>
+            <a asp-action="SiteSettings" class="btn btn-outline-dark btn-sm rounded-pill">
+                <i class="bi bi-gear me-1"></i> Site Settings
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Main Dashboard Grid -->
+<div class="row g-4">
+    <!-- Recent Donations Table -->
+    <div class="col-lg-7">
+        <div class="card admin-table-card border-0 shadow-sm rounded-4 mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h6 class="fw-bold mb-0"><i class="bi bi-cash-stack text-success me-2"></i>Recent Verified Donations</h6>
+                <a asp-action="Donations" class="btn btn-sm btn-link text-primary p-0 text-decoration-none">View All &rarr;</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light small text-secondary">
+                        <tr>
+                            <th>Reference</th>
+                            <th>Donor</th>
+                            <th>Cause</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody class="small">
+                        @if (!Model.RecentDonations.Any())
+                        {
+                            <tr>
+                                <td colspan="6" class="text-center py-3 text-muted">No donations recorded yet.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var don in Model.RecentDonations)
+                            {
+                                <tr>
+                                    <td class="font-monospace fw-semibold text-primary">@don.TransactionReference</td>
+                                    <td>
+                                        <div class="fw-bold">@don.DonorName</div>
+                                        <small class="text-muted">@don.DonorEmail</small>
+                                    </td>
+                                    <td>@don.DonationCause.Name</td>
+                                    <td class="fw-bold text-success">$@don.Amount.ToString("N2")</td>
+                                    <td>@don.DonationDate.ToString("MMM dd")</td>
+                                    <td>
+                                        <a asp-action="DonationDetails" asp-route-id="@don.Id" class="btn btn-sm btn-light border rounded-pill px-2">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Recent User Queries -->
+        <div class="card admin-table-card border-0 shadow-sm rounded-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h6 class="fw-bold mb-0"><i class="bi bi-chat-dots text-info me-2"></i>Recent User Inquiries</h6>
+                <a asp-action="Queries" class="btn btn-sm btn-link text-primary p-0 text-decoration-none">View All &rarr;</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light small text-secondary">
+                        <tr>
+                            <th>From</th>
+                            <th>Subject</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="small">
+                        @if (!Model.RecentQueries.Any())
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center py-3 text-muted">No support queries received yet.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var q in Model.RecentQueries)
+                            {
+                                var badgeClass = q.Status switch
+                                {
+                                    "Resolved" => "bg-success",
+                                    "In Progress" => "bg-info text-dark",
+                                    _ => "bg-warning text-dark"
+                                };
+                                <tr>
+                                    <td>
+                                        <div class="fw-bold">@q.SenderName</div>
+                                        <small class="text-muted">@q.SenderEmail</small>
+                                    </td>
+                                    <td class="text-truncate" style="max-width: 180px;">@q.Subject</td>
+                                    <td><span class="badge @badgeClass">@q.Status</span></td>
+                                    <td>@q.CreatedAt.ToString("MMM dd")</td>
+                                    <td>
+                                        <a asp-action="QueryDetails" asp-route-id="@q.Id" class="btn btn-sm btn-outline-primary rounded-pill px-2">
+                                            Reply
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Column: Top Causes Progress & Recent Members -->
+    <div class="col-lg-5">
+        <!-- Cause Progress Breakdown -->
+        <div class="card border-0 shadow-sm rounded-4 p-3 p-sm-4 mb-4 bg-white">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="fw-bold mb-0"><i class="bi bi-pie-chart text-primary me-2"></i>Fundraising Progress</h6>
+                <a asp-action="Causes" class="btn btn-sm btn-link text-primary p-0 text-decoration-none">Manage Causes &rarr;</a>
+            </div>
+
+            <div class="d-flex flex-column gap-3">
+                @foreach (var c in Model.TopCauses)
+                {
+                    var pct = c.TargetAmount > 0 ? (int)((c.RaisedAmount / c.TargetAmount) * 100) : 0;
+                    if (pct > 100) pct = 100;
+                    <div>
+                        <div class="d-flex justify-content-between small fw-bold mb-1">
+                            <span class="text-dark">@c.Name</span>
+                            <span class="text-success">$@c.RaisedAmount.ToString("N0") / $@c.TargetAmount.ToString("N0")</span>
+                        </div>
+                        <div class="progress custom-progress" style="height: 8px;">
+                            <div class="progress-bar bg-primary" role="progressbar" style="width: @pct%"></div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Recent Users -->
+        <div class="card admin-table-card border-0 shadow-sm rounded-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h6 class="fw-bold mb-0"><i class="bi bi-people text-primary me-2"></i>Recent Members</h6>
+                <a asp-action="Users" class="btn btn-sm btn-link text-primary p-0 text-decoration-none">View All &rarr;</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light small text-secondary">
+                        <tr>
+                            <th>Member</th>
+                            <th>City</th>
+                            <th>Status</th>
+                            <th>Joined</th>
+                        </tr>
+                    </thead>
+                    <tbody class="small">
+                        @foreach (var u in Model.RecentUsers)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="fw-bold">@u.FullName</div>
+                                    <small class="text-muted">@u.Email</small>
+                                </td>
+                                <td>@(u.City ?? "N/A")</td>
+                                <td>
+                                    @if (u.IsActive)
+                                    {
+                                        <span class="badge bg-success-subtle text-success">Active</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger-subtle text-danger">Inactive</span>
+                                    }
+                                </td>
+                                <td>@u.CreatedAt.ToString("MMM dd")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

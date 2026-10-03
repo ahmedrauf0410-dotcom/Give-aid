@@ -1,0 +1,120 @@
+@model GiveAID.Models.DonationCause
+@{
+    ViewData["Title"] = Model.Name;
+    var relatedCauses = ViewBag.RelatedCauses as IEnumerable<GiveAID.Models.DonationCause> ?? new List<GiveAID.Models.DonationCause>();
+    var percent = Model.TargetAmount > 0 ? (int)((Model.RaisedAmount / Model.TargetAmount) * 100) : 0;
+    if (percent > 100) percent = 100;
+}
+
+<div class="container py-5">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-action="Causes">Causes</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+        </ol>
+    </nav>
+
+    <div class="row g-4 g-lg-5">
+        <!-- Main Cause Details -->
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+                <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid" style="max-height: 440px; width: 100%; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1000&auto=format&fit=crop&q=80';">
+                
+                <div class="p-3 p-sm-4 p-md-5">
+                    <span class="badge bg-primary px-3 py-1 rounded-pill mb-2">@Model.Category</span>
+                    <h1 class="display-6 fw-bold text-dark mb-3">@Model.Name</h1>
+                    
+                    <p class="lead text-secondary mb-4">
+                        @Model.ShortDescription
+                    </p>
+
+                    <div class="p-3 p-sm-4 bg-light rounded-4 border mb-4">
+                        <div class="d-flex flex-wrap justify-content-between align-items-baseline gap-2 mb-2">
+                            <div>
+                                <span class="fs-3 fw-bold text-success">$@Model.RaisedAmount.ToString("N2")</span>
+                                <span class="text-muted">raised of $@Model.TargetAmount.ToString("N2") goal</span>
+                            </div>
+                            <span class="fs-5 fw-bold text-primary">@percent%</span>
+                        </div>
+                        <div class="progress custom-progress mb-3" style="height: 12px;">
+                            <div class="progress-bar" role="progressbar" style="width: @percent%" aria-valuenow="@percent" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div class="d-flex justify-content-between small text-muted">
+                            <span><i class="bi bi-people-fill me-1"></i>@Model.Donations.Count individual contributions</span>
+                            <span><i class="bi bi-shield-check text-success me-1"></i>Verified Humanitarian Goal</span>
+                        </div>
+                    </div>
+
+                    <h4 class="fw-bold text-dark mb-3">About This Welfare Campaign</h4>
+                    <div class="text-secondary fs-5 lh-base mb-5">
+                        @Html.Raw(Model.FullDescription.Replace("\n", "<br/>"))
+                    </div>
+
+                    <!-- Recent Donations on this Cause -->
+                    <h5 class="fw-bold text-dark mb-3"><i class="bi bi-heart-fill text-danger me-2"></i>Recent Generous Supporters</h5>
+                    @if (!Model.Donations.Any())
+                    {
+                        <p class="text-muted small">Be the first generous donor to support this initiative!</p>
+                    }
+                    else
+                    {
+                        <div class="list-group list-group-flush border rounded-3 mb-4">
+                            @foreach (var don in Model.Donations.OrderByDescending(d => d.DonationDate).Take(5))
+                            {
+                                <div class="list-group-item d-flex flex-wrap justify-content-between align-items-center gap-2 py-3">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="bg-primary-subtle text-primary rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                            <i class="bi bi-person-heart"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0 fw-bold">@don.DonorName</h6>
+                                            <small class="text-muted">@don.DonationDate.ToString("MMM dd, yyyy")</small>
+                                            @if (!string.IsNullOrEmpty(don.Notes))
+                                            {
+                                                <div class="small text-secondary italic mt-1">"@don.Notes"</div>
+                                            }
+                                        </div>
+                                    </div>
+                                    <span class="badge bg-success fs-6 fw-bold px-3 py-2 rounded-pill">+$@don.Amount.ToString("N2")</span>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Call to Action -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4 p-3 p-sm-4 sticky-top mb-4" style="top: 80px;">
+                <h4 class="fw-bold text-dark mb-2">Back This Initiative</h4>
+                <p class="text-muted small mb-4">
+                    Your contribution directly sponsors supplies, care, and equipment.
+                </p>
+
+                <div class="d-grid gap-2 mb-4">
+                    <a asp-action="Donate" asp-route-causeId="@Model.Id" class="btn btn-warning btn-lg fw-bold rounded-pill text-dark shadow-sm">
+                        <i class="bi bi-heart-fill text-danger me-1"></i> Donate to This Cause
+                    </a>
+                </div>
+
+                <hr>
+
+                <h6 class="fw-bold text-dark mb-3">Other Urgent Causes</h6>
+                <div class="d-flex flex-column gap-3">
+                    @foreach (var rel in relatedCauses)
+                    {
+                        <a asp-action="CauseDetails" asp-route-id="@rel.Id" class="text-decoration-none text-dark d-flex align-items-center gap-3 p-2 rounded-3 hover-light">
+                            <img src="@rel.ImageUrl" alt="@rel.Name" class="rounded-3" style="width: 60px; height: 60px; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=100&auto=format&fit=crop&q=80';">
+                            <div class="text-truncate">
+                                <div class="fw-bold small text-truncate">@rel.Name</div>
+                                <small class="text-success fw-semibold">$@rel.RaisedAmount.ToString("N0") raised</small>
+                            </div>
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

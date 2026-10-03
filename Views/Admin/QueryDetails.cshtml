@@ -1,0 +1,90 @@
+@model GiveAID.ViewModels.QueryReplyViewModel
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = $"Query #{Model.Id}: {Model.Subject}";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4 pb-3 border-bottom">
+                <div>
+                    <h3 class="fw-bold text-dark mb-0">Query #{Model.Id} Review</h3>
+                    <small class="text-muted">Submitted by @Model.SenderName on @Model.CreatedAt.ToString("f")</small>
+                </div>
+                <a asp-action="Queries" class="btn btn-outline-secondary rounded-pill px-3 btn-sm">
+                    &larr; Back to Queries
+                </a>
+            </div>
+
+            <!-- Inquirer Details -->
+            <div class="p-3 bg-light rounded-3 border mb-4">
+                <div class="row g-2 small">
+                    <div class="col-sm-6">
+                        <span class="text-muted">Submitted By:</span>
+                        <strong class="text-dark">@Model.SenderName</strong>
+                    </div>
+                    <div class="col-sm-6">
+                        <span class="text-muted">Contact Email:</span>
+                        <a href="mailto:@Model.SenderEmail" class="text-primary fw-bold">@Model.SenderEmail</a>
+                    </div>
+                    <div class="col-12 mt-2 pt-2 border-top">
+                        <span class="text-muted">Subject:</span>
+                        <strong class="text-dark fs-6 d-block">@Model.Subject</strong>
+                    </div>
+                    <div class="col-12 mt-2">
+                        <span class="text-muted">User's Message / Request:</span>
+                        <div class="p-3 bg-white border rounded-3 text-secondary mt-1 fs-6">
+                            @Html.Raw(Model.Message.Replace("\n", "<br/>"))
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Response Form -->
+            <form asp-action="QueryDetails" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="SenderName" />
+                <input type="hidden" asp-for="SenderEmail" />
+                <input type="hidden" asp-for="Subject" />
+                <input type="hidden" asp-for="Message" />
+                <input type="hidden" asp-for="CreatedAt" />
+
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 small" role="alert"></div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="Status" class="form-label small fw-semibold text-secondary">Inquiry Status</label>
+                        <select asp-for="Status" class="form-select form-select-lg">
+                            <option value="Pending">Pending Review</option>
+                            <option value="In Progress">In Progress / Investigating</option>
+                            <option value="Resolved">Resolved / Closed</option>
+                        </select>
+                        <span asp-validation-for="Status" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-12">
+                        <label asp-for="AdminResponse" class="form-label small fw-semibold text-secondary">Official Administrator Response</label>
+                        <textarea asp-for="AdminResponse" rows="6" class="form-control" placeholder="Type your response to the user. This will be immediately viewable in their Member Portal."></textarea>
+                        <span asp-validation-for="AdminResponse" class="text-danger small"></span>
+                        <small class="text-muted">This response is visible to the member when they check their queries portal.</small>
+                    </div>
+
+                    <div class="col-12 mt-4 pt-3 border-top d-flex flex-wrap gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5 fw-bold shadow-sm">
+                            <i class="bi bi-send-check me-1"></i> Submit Response & Update Status
+                        </button>
+                        <a asp-action="Queries" class="btn btn-outline-secondary btn-lg rounded-pill px-4">
+                            Cancel
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,80 @@
+@model IEnumerable<GiveAID.Models.GalleryItem>
+@{
+    ViewData["Title"] = "Photo Gallery - Moments in the Field";
+    var selectedCategory = ViewBag.SelectedCategory as string ?? "All";
+    var categories = ViewBag.Categories as IEnumerable<string> ?? new List<string>();
+}
+
+<div class="bg-primary text-white py-5 text-center">
+    <div class="container py-3">
+        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold mb-2">Visual Impact</span>
+        <h1 class="display-4 fw-bold font-heading mb-2">Our Field Gallery</h1>
+        <p class="lead text-white-50 mx-auto mb-0" style="max-width: 650px;">
+            A glimpse into the communities, children, healthcare clinics, and lives touched by your contributions.
+        </p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <!-- Category Filter Tabs -->
+    <div class="d-flex flex-wrap justify-content-center gap-2 mb-5">
+        <a asp-action="Gallery" asp-route-category="All" class="btn @(selectedCategory == "All" ? "btn-primary" : "btn-outline-secondary") rounded-pill px-4">
+            All Photos
+        </a>
+        @foreach (var cat in categories)
+        {
+            <a asp-action="Gallery" asp-route-category="@cat" class="btn @(selectedCategory == cat ? "btn-primary" : "btn-outline-secondary") rounded-pill px-4">
+                @cat
+            </a>
+        }
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+            <i class="bi bi-images text-muted" style="font-size: 3rem;"></i>
+            <h4 class="fw-bold mt-3">No Gallery Photos Found</h4>
+            <p class="text-muted">No images found for this category.</p>
+            <a asp-action="Gallery" class="btn btn-outline-primary rounded-pill mt-2">View All Photos</a>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-4 col-md-6">
+                    <div class="gallery-card shadow-sm" data-bs-toggle="modal" data-bs-target="#galleryModal-@item.Id">
+                        <img src="@item.ImageUrl" alt="@item.Title" onerror="this.src='https://images.unsplash.com/photo-1542810634-71277d95dcbb?w=600&auto=format&fit=crop&q=80';">
+                        <div class="gallery-card-overlay">
+                            <span class="badge bg-primary mb-2">@item.Category</span>
+                            <h5 class="fw-bold mb-1">@item.Title</h5>
+                            <p class="small text-white-50 mb-0">@item.Description</p>
+                            <span class="small text-warning fw-semibold mt-2 d-inline-block"><i class="bi bi-zoom-in me-1"></i>Click to view full photo</span>
+                        </div>
+                    </div>
+
+                    <!-- Modal for Enlarged View -->
+                    <div class="modal fade" id="galleryModal-@item.Id" tabindex="-1" aria-labelledby="modalLabel-@item.Id" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content border-0 rounded-4 overflow-hidden">
+                                <div class="modal-header border-0 pb-0">
+                                    <h5 class="modal-title fw-bold" id="modalLabel-@item.Id">@item.Title</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body p-4">
+                                    <img src="@item.ImageUrl" alt="@item.Title" class="img-fluid rounded-3 mb-3 w-100" style="max-height: 500px; object-fit: contain; background: #000;" onerror="this.src='https://images.unsplash.com/photo-1542810634-71277d95dcbb?w=1000&auto=format&fit=crop&q=80';">
+                                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2">
+                                        <span class="badge bg-primary">@item.Category</span>
+                                        <small class="text-muted">Captured on @item.CreatedAt.ToString("MMM dd, yyyy")</small>
+                                    </div>
+                                    <p class="text-secondary mb-0">@item.Description</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

@@ -1,0 +1,101 @@
+@model GiveAID.Models.Donation
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = $"Donation #{Model.TransactionReference}";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4 pb-3 border-bottom">
+                <div>
+                    <span class="badge bg-success-subtle text-success font-monospace px-3 py-1 rounded-pill mb-1">Status: @Model.PaymentStatus</span>
+                    <h3 class="fw-bold text-dark mb-0">Transaction: @Model.TransactionReference</h3>
+                    <small class="text-muted">Recorded on @Model.DonationDate.ToString("f")</small>
+                </div>
+                <a asp-action="Donations" class="btn btn-outline-secondary rounded-pill px-3 btn-sm">
+                    &larr; Back to Donations
+                </a>
+            </div>
+
+            <!-- Transaction Breakdown Grid -->
+            <div class="row g-4 mb-4">
+                <div class="col-sm-6">
+                    <small class="text-muted text-uppercase fw-semibold d-block">Contribution Amount</small>
+                    <span class="fs-3 fw-bold text-success">$@Model.Amount.ToString("N2") USD</span>
+                </div>
+                <div class="col-sm-6">
+                    <small class="text-muted text-uppercase fw-semibold d-block">Allocated Cause</small>
+                    <span class="fs-5 fw-bold text-dark">@Model.DonationCause.Name</span>
+                </div>
+                <div class="col-sm-6">
+                    <small class="text-muted text-uppercase fw-semibold d-block">Donor Name</small>
+                    <strong class="fs-6">@Model.DonorName</strong>
+                </div>
+                <div class="col-sm-6">
+                    <small class="text-muted text-uppercase fw-semibold d-block">Donor Email</small>
+                    <strong class="fs-6 text-primary">@Model.DonorEmail</strong>
+                </div>
+                <div class="col-sm-6">
+                    <small class="text-muted text-uppercase fw-semibold d-block">Donor Phone</small>
+                    <span class="text-secondary">@(Model.DonorPhone ?? "Not provided")</span>
+                </div>
+                <div class="col-sm-6">
+                    <small class="text-muted text-uppercase fw-semibold d-block">Registered User Account</small>
+                    @if (Model.User != null)
+                    {
+                        <a asp-action="UserDetails" asp-route-id="@Model.UserId" class="badge bg-primary-subtle text-primary text-decoration-none fs-6">
+                            <i class="bi bi-person me-1"></i>@Model.User.FullName
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Guest / Anonymous Donor</span>
+                    }
+                </div>
+            </div>
+
+            <!-- Simulated Payment Security Breakdown -->
+            <div class="p-4 bg-light rounded-4 border mb-4">
+                <h6 class="fw-bold text-dark mb-3"><i class="bi bi-shield-check text-success me-2"></i>Simulated Payment Card Details</h6>
+                <div class="row g-3 small">
+                    <div class="col-sm-6">
+                        <span class="text-muted d-block">Cardholder Name:</span>
+                        <strong class="text-dark">@Model.CardHolderName</strong>
+                    </div>
+                    <div class="col-sm-6">
+                        <span class="text-muted d-block">Masked Card Number:</span>
+                        <strong class="text-dark font-monospace">@Model.MaskedCardNumber</strong>
+                    </div>
+                    <div class="col-sm-6">
+                        <span class="text-muted d-block">Expiration:</span>
+                        <strong class="text-dark">@Model.ExpiryMonth/@Model.ExpiryYear</strong>
+                    </div>
+                    <div class="col-sm-6">
+                        <span class="text-muted d-block">CVV Storage:</span>
+                        <span class="text-success fw-bold"><i class="bi bi-check-circle-fill me-1"></i>Purged / Not Stored (PCI-DSS Simulation Compliant)</span>
+                    </div>
+                </div>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.Notes))
+            {
+                <div class="mb-4">
+                    <small class="text-muted text-uppercase fw-semibold d-block mb-1">Donor Notes / Dedication:</small>
+                    <div class="p-3 bg-light rounded-3 border fst-italic">
+                        "@Model.Notes"
+                    </div>
+                </div>
+            }
+
+            <div class="d-flex flex-wrap justify-content-between gap-2 pt-3 border-top">
+                <button type="button" class="btn btn-outline-secondary rounded-pill px-4" onclick="window.print();">
+                    <i class="bi bi-printer me-1"></i> Print Audit Record
+                </button>
+                <a asp-action="Donations" class="btn btn-primary rounded-pill px-4">
+                    Return to Audit List
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

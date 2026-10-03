@@ -1,0 +1,57 @@
+@model IEnumerable<GiveAID.Models.Invitation>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Member Invitations Log";
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+    <div>
+        <h4 class="fw-bold mb-1">Member Referral & Invitations Log</h4>
+        <p class="text-muted small mb-0">Track members who have invited colleagues or friends to discover Give-AID.</p>
+    </div>
+</div>
+
+<div class="card admin-table-card border-0 shadow-sm rounded-4">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light small text-secondary">
+                <tr>
+                    <th>Invited By</th>
+                    <th>Friend's Name</th>
+                    <th>Friend's Email</th>
+                    <th>Personal Note</th>
+                    <th>Sent At</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="5" class="text-center py-4 text-muted">No invitations recorded yet.</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var inv in Model)
+                    {
+                        <tr>
+                            <td>
+                                <strong class="text-dark d-block">@inv.SenderName</strong>
+                                @if (inv.SenderUserId.HasValue)
+                                {
+                                    <span class="badge bg-primary-subtle text-primary small">Member #@inv.SenderUserId</span>
+                                }
+                            </td>
+                            <td><strong class="text-dark">@inv.FriendName</strong></td>
+                            <td><a href="mailto:@inv.FriendEmail" class="text-primary text-decoration-none">@inv.FriendEmail</a></td>
+                            <td class="small text-muted text-truncate" style="max-width: 300px;">
+                                @(string.IsNullOrEmpty(inv.PersonalMessage) ? "No personalized message" : inv.PersonalMessage)
+                            </td>
+                            <td class="small text-muted">@inv.SentAt.ToString("MMM dd, yyyy HH:mm")</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

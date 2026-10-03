@@ -1,0 +1,80 @@
+@model GiveAID.ViewModels.HelpItemEditViewModel
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Create FAQ / Help Item";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4 pb-3 border-bottom">
+                <div>
+                    <h3 class="fw-bold text-dark mb-0">Create Help / FAQ Item</h3>
+                    <small class="text-muted">Add answers to common donor and community questions</small>
+                </div>
+                <a asp-action="HelpCentre" class="btn btn-outline-secondary rounded-pill px-3 btn-sm">
+                    &larr; Back to Help Centre
+                </a>
+            </div>
+
+            <form asp-action="CreateHelpItem" method="post">
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 small" role="alert"></div>
+
+                <div class="row g-3">
+                    <div class="col-md-9">
+                        <label asp-for="Question" class="form-label small fw-semibold text-secondary"></label>
+                        <input asp-for="Question" class="form-control form-control-lg" placeholder="e.g. How do I obtain a tax deduction receipt?" />
+                        <span asp-validation-for="Question" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label asp-for="DisplayOrder" class="form-label small fw-semibold text-secondary"></label>
+                        <input asp-for="DisplayOrder" type="number" class="form-control form-control-lg" />
+                        <span asp-validation-for="DisplayOrder" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-12">
+                        <label asp-for="Category" class="form-label small fw-semibold text-secondary"></label>
+                        <select asp-for="Category" class="form-select">
+                            <option value="Donations">Donations</option>
+                            <option value="Volunteering">Volunteering</option>
+                            <option value="Account">Account</option>
+                            <option value="Partnership">Partnership</option>
+                            <option value="Support">Support</option>
+                            <option value="General">General</option>
+                        </select>
+                        <span asp-validation-for="Category" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-12">
+                        <label asp-for="Answer" class="form-label small fw-semibold text-secondary"></label>
+                        <textarea asp-for="Answer" rows="5" class="form-control" placeholder="Provide a helpful, precise explanation..."></textarea>
+                        <span asp-validation-for="Answer" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-12 mt-2">
+                        <div class="form-check form-switch">
+                            <input asp-for="IsActive" class="form-check-input" type="checkbox" id="isActiveSwitch" checked>
+                            <label class="form-check-label fw-semibold text-dark" for="isActiveSwitch">Active & Displayed in Public Help Centre</label>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mt-4 pt-3 border-top d-flex flex-wrap gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5 fw-bold shadow-sm">
+                            <i class="bi bi-check2-circle me-1"></i> Save FAQ
+                        </button>
+                        <a asp-action="HelpCentre" class="btn btn-outline-secondary btn-lg rounded-pill px-4">
+                            Cancel
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

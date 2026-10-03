@@ -1,0 +1,938 @@
+/* ===================================================================
+   Give-AID — Warm Humanitarian Orange & Deep Indigo Design System
+   Public Portal Theme & Responsive Core Stylesheet
+   =================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    /* Brand Core Palette: Warm Saffron-Orange & Deep Indigo */
+    --primary-color: #ea580c;
+    --primary-dark: #c2410c;
+    --primary-light: #f97316;
+    --primary-subtle: #fff7ed;
+    --primary-border: #fed7aa;
+
+    /* Deep Indigo Accents */
+    --accent-color: #4f46e5;
+    --accent-hover: #4338ca;
+    --accent-subtle: #eef2ff;
+
+    /* Golden Highlight */
+    --gold-color: #f59e0b;
+    --gold-hover: #d97706;
+    --gold-subtle: #fef3c7;
+
+    /* Semantic Neutrals */
+    --text-dark: #0f172a;
+    --text-body: #374151;
+    --text-muted: #6b7280;
+    --bg-page: #f9fafb;
+    --bg-card: #ffffff;
+    --border-color: #e5e7eb;
+    --border-hover: #d1d5db;
+
+    /* Multi-Layer Soft Shadows */
+    --shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+    --shadow-sm: 0 2px 4px -1px rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
+    --shadow-md: 0 6px 16px -2px rgba(15, 23, 42, 0.08), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+    --shadow-lg: 0 14px 28px -4px rgba(15, 23, 42, 0.10), 0 4px 10px -2px rgba(15, 23, 42, 0.05);
+    --shadow-hover: 0 20px 32px -6px rgba(234, 88, 12, 0.20), 0 8px 16px -4px rgba(15, 23, 42, 0.08);
+
+    /* Radii */
+    --radius-sm: 0.5rem;
+    --radius-md: 0.875rem;
+    --radius-lg: 1.25rem;
+    --radius-pill: 9999px;
+
+    /* ---- Bootstrap 5.3 theme bridge ----------------------------------------
+       Bootstrap's utilities read these variables, so setting them once keeps
+       the whole site on the Give-AID Orange/Indigo palette. */
+    --bs-primary: #ea580c;
+    --bs-primary-rgb: 234, 88, 12;
+    --bs-warning: #f59e0b;
+    --bs-warning-rgb: 245, 158, 11;
+    --bs-link-color: #ea580c;
+    --bs-link-color-rgb: 234, 88, 12;
+    --bs-link-hover-color: #c2410c;
+    --bs-link-hover-color-rgb: 194, 65, 12;
+    --bs-primary-bg-subtle: #fff7ed;
+    --bs-primary-border-subtle: #fed7aa;
+    --bs-primary-text-emphasis: #9a3412;
+    --bs-warning-bg-subtle: #fef3c7;
+    --bs-warning-border-subtle: #fde68a;
+    --bs-warning-text-emphasis: #92400e;
+    --bs-focus-ring-color: rgba(234, 88, 12, 0.25);
+    --bs-body-color: #374151;
+    --bs-heading-color: #0f172a;
+}
+
+/* ===================================================================
+   1. GLOBAL RESET & ZERO-OVERFLOW PRESERVATION
+   =================================================================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+
+*::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    background: transparent !important;
+}
+
+html, body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--text-body);
+    background-color: #ffffff;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden !important;
+}
+
+img, svg, picture, video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* ===================================================================
+   2. TYPOGRAPHY & FLUID HEADINGS
+   =================================================================== */
+h1, h2, h3, h4, h5, h6, .font-heading {
+    font-family: 'Outfit', sans-serif;
+    color: var(--bs-heading-color, var(--text-dark));
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.25;
+}
+
+.card, .bg-white, .bg-light {
+    --bs-heading-color: var(--text-dark);
+}
+
+.hero-section, .bg-dark, .bg-primary, .text-white, .page-hero {
+    --bs-heading-color: #ffffff;
+}
+
+    .hero-section .card {
+        --bs-heading-color: var(--text-dark);
+    }
+
+.display-1 { font-size: clamp(2rem, 5vw, 4rem); }
+.display-2 { font-size: clamp(1.8rem, 4.5vw, 3.25rem); }
+.display-3 { font-size: clamp(1.55rem, 3.6vw, 2.75rem); }
+.display-4 { font-size: clamp(1.4rem, 3.2vw, 2.25rem); }
+.display-5 { font-size: clamp(1.25rem, 2.6vw, 1.85rem); }
+.display-6 { font-size: clamp(1.15rem, 2.2vw, 1.55rem); }
+
+.lead {
+    font-size: clamp(0.95rem, 2vw, 1.15rem);
+    line-height: 1.6;
+}
+
+.text-tracking { letter-spacing: -0.035em; }
+
+.hover-white:hover { color: #ffffff !important; }
+.hover-primary:hover { color: var(--primary-color) !important; }
+
+.min-w-0 { min-width: 0; }
+
+h1, h2, h3, h4, h5, h6, p, .small, small {
+    overflow-wrap: anywhere;
+}
+
+table .small,
+table small,
+table p {
+    overflow-wrap: normal;
+}
+
+.letter-spacing { letter-spacing: 0.08em; }
+
+@media (min-width: 1200px) {
+    .border-xl-0 { border: 0 !important; }
+}
+
+/* ===================================================================
+   3. BUTTONS & UI CONTROLS
+   =================================================================== */
+.btn-primary {
+    --bs-btn-bg: var(--primary-color);
+    --bs-btn-border-color: var(--primary-color);
+    --bs-btn-hover-bg: var(--primary-dark);
+    --bs-btn-hover-border-color: var(--primary-dark);
+    --bs-btn-active-bg: var(--primary-dark);
+    --bs-btn-active-border-color: var(--primary-dark);
+    --bs-btn-disabled-bg: var(--primary-color);
+    --bs-btn-disabled-border-color: var(--primary-color);
+    --bs-btn-focus-shadow-rgb: 234, 88, 12;
+    background-image: none;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #ffffff;
+    font-weight: 600;
+    transition: all 0.25s ease;
+}
+
+    .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+        background-color: var(--primary-dark) !important;
+        border-color: var(--primary-dark) !important;
+        color: #ffffff !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 14px rgba(234, 88, 12, 0.38);
+    }
+
+.btn-outline-primary {
+    --bs-btn-color: var(--primary-color);
+    --bs-btn-border-color: var(--primary-color);
+    --bs-btn-hover-bg: var(--primary-color);
+    --bs-btn-hover-border-color: var(--primary-color);
+    --bs-btn-active-bg: var(--primary-color);
+    --bs-btn-active-border-color: var(--primary-color);
+    --bs-btn-disabled-color: var(--primary-color);
+    --bs-btn-disabled-border-color: var(--primary-color);
+    --bs-btn-focus-shadow-rgb: 234, 88, 12;
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    font-weight: 600;
+    transition: all 0.25s ease;
+}
+
+    .btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active {
+        background-color: var(--primary-color) !important;
+        border-color: var(--primary-color) !important;
+        color: #ffffff !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(234, 88, 12, 0.28);
+    }
+
+.btn-warning {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    border: none;
+    color: #0f172a !important;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    transition: all 0.25s ease;
+}
+
+    .btn-warning:hover, .btn-warning:focus, .btn-warning:active {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(245, 158, 11, 0.45) !important;
+    }
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(234, 88, 12, 0.15);
+}
+
+/* ===================================================================
+   4. NAVIGATION & HEADER
+   =================================================================== */
+.top-bar {
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+    font-size: 0.825rem;
+}
+
+    .top-bar a {
+        transition: color 0.2s ease;
+    }
+
+    .top-bar .text-truncate {
+        max-width: 220px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+@media (min-width: 576px) {
+    .top-bar .text-truncate { max-width: 320px; }
+}
+
+@media (min-width: 992px) {
+    .top-bar .text-truncate { max-width: none; }
+}
+
+.navbar {
+    background: rgba(255, 255, 255, 0.98) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(229, 231, 235, 0.8);
+    transition: all 0.3s ease;
+}
+
+.navbar-brand .brand-icon-wrapper {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%) !important;
+    box-shadow: 0 4px 10px rgba(234, 88, 12, 0.32);
+}
+
+.navbar-nav .nav-link {
+    color: #374151;
+    font-weight: 500;
+    padding: 0.5rem 0.65rem !important;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+@media (min-width: 1400px) {
+    .navbar-nav .nav-link {
+        padding: 0.55rem 0.85rem !important;
+    }
+}
+
+@media (min-width: 1200px) and (max-width: 1399.98px) {
+    .navbar > .container-fluid {
+        padding-left: 1.25rem !important;
+        padding-right: 1.25rem !important;
+    }
+
+    .navbar-nav .nav-link {
+        padding: 0.5rem 0.4rem !important;
+        font-size: 0.9rem;
+    }
+
+    .navbar-brand .badge {
+        display: none;
+    }
+
+    #giveAidNavbar .btn {
+        padding-left: 0.9rem !important;
+        padding-right: 0.9rem !important;
+        font-size: 0.9rem;
+    }
+}
+
+#giveAidNavbar .dropdown > .btn {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media (min-width: 1200px) {
+    #giveAidNavbar .dropdown > .btn {
+        max-width: 200px;
+    }
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--primary-color);
+    background-color: var(--primary-subtle);
+}
+
+.navbar-nav .nav-link.active {
+    color: var(--primary-color) !important;
+    font-weight: 700;
+}
+
+/* ===================================================================
+   5. HERO SECTION — Warm Deep Indigo → Orange Glow
+   =================================================================== */
+.hero-section {
+    background:
+        radial-gradient(circle at 8% 15%, rgba(234, 88, 12, 0.28) 0%, transparent 42%),
+        radial-gradient(circle at 92% 82%, rgba(245, 158, 11, 0.18) 0%, transparent 42%),
+        radial-gradient(circle at 55% 50%, rgba(79, 70, 229, 0.12) 0%, transparent 55%),
+        linear-gradient(145deg, #0f0e1e 0%, #1e1b4b 45%, #2d1a0e 100%);
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.025' fill-rule='evenodd'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+}
+
+.hero-section .badge {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.hero-section .lead {
+    font-size: clamp(1rem, 2.2vw, 1.2rem) !important;
+    max-width: 38rem;
+}
+
+@media (max-width: 991.98px) {
+    .hero-section .lead {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+/* ===================================================================
+   6. CARDS (Features, Causes, Programmes, Partners)
+   =================================================================== */
+.feature-card, .cause-card, .programme-card, .partner-card {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.3s ease;
+    background: #ffffff;
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+    .feature-card:hover, .cause-card:hover, .programme-card:hover, .partner-card:hover {
+        transform: translateY(-6px);
+        box-shadow: var(--shadow-hover);
+        border-color: var(--primary-border);
+    }
+
+.cause-image-wrapper {
+    height: clamp(190px, 25vw, 240px);
+    position: relative;
+    overflow: hidden;
+    background-color: #f3f4f6;
+}
+
+    .cause-image-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+.cause-card:hover .cause-image-wrapper img,
+.programme-card:hover .cause-image-wrapper img {
+    transform: scale(1.08);
+}
+
+.cause-category-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: rgba(15, 23, 42, 0.88);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.35rem 0.85rem;
+    border-radius: var(--radius-pill);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Custom Progress Bars — Orange gradient */
+.custom-progress {
+    height: 9px;
+    border-radius: var(--radius-pill);
+    background-color: #e5e7eb;
+    overflow: hidden;
+}
+
+    .custom-progress .progress-bar {
+        border-radius: var(--radius-pill);
+        background: linear-gradient(90deg, var(--primary-color) 0%, var(--primary-light) 60%, var(--gold-color) 100%);
+        transition: width 0.8s ease;
+    }
+
+/* ===================================================================
+   7. DONATION PRESETS & VIRTUAL CREDIT CARD (Responsive 320px+)
+   =================================================================== */
+.donation-preset-btn {
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+    padding: 0.65rem 0.5rem;
+    color: var(--text-body);
+    background-color: #ffffff;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    text-align: center;
+}
+
+    .donation-preset-btn:hover, .donation-preset-btn.active {
+        border-color: var(--primary-color);
+        background-color: var(--primary-subtle);
+        color: var(--primary-color);
+        box-shadow: 0 4px 10px rgba(234, 88, 12, 0.15);
+    }
+
+/* Virtual Credit Card Simulation Box */
+.card-simulation-box {
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 45%, #ea580c 130%);
+    border-radius: var(--radius-lg);
+    color: #ffffff;
+    padding: clamp(0.85rem, 2.5vw, 1.35rem);
+    box-shadow: 0 16px 32px -4px rgba(30, 27, 75, 0.45), 0 4px 8px rgba(234, 88, 12, 0.22);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    width: 100%;
+    max-width: 100%;
+}
+
+    .card-simulation-box::before {
+        content: '';
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.10) 0%, transparent 70%);
+        top: -60px;
+        right: -60px;
+        pointer-events: none;
+    }
+
+.card-chip {
+    width: 38px;
+    height: 26px;
+    background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+    border-radius: 5px;
+    display: inline-block;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.4);
+}
+
+/* BUG FIX: Both #cardPreviewNumber and #cardPreviewNumber are same — JS uses 'cardPreviewNumber' */
+#cardPreviewNumber {
+    font-size: clamp(0.72rem, 3.2vw, 1.15rem);
+    letter-spacing: clamp(0.02em, 0.4vw, 0.08em);
+    word-spacing: -0.05em;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    max-width: 100%;
+}
+
+/* ===================================================================
+   8. STAT COUNTERS & METRICS STRIP
+   =================================================================== */
+.counter-box {
+    border-radius: var(--radius-lg);
+    padding: clamp(1.2rem, 3vw, 2rem) clamp(0.75rem, 2vw, 1.5rem);
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+    .counter-box:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--primary-border);
+    }
+
+.counter-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 0.85rem;
+}
+
+.counter-box h3 {
+    font-size: clamp(1.05rem, 3.2vw, 1.85rem);
+    letter-spacing: -0.02em;
+    word-break: break-word;
+}
+
+/* ===================================================================
+   9. GALLERY CARDS
+   =================================================================== */
+.gallery-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    height: clamp(220px, 30vw, 280px);
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+}
+
+    .gallery-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+.gallery-card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(30, 27, 75, 0.95) 0%, rgba(30, 27, 75, 0.4) 60%, transparent 100%);
+    color: #ffffff;
+    padding: 1.25rem;
+    /* BUG FIX: Use opacity-only transition on desktop; always visible on touch devices */
+    transform: translateY(0);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Desktop hover */
+.gallery-card:hover img {
+    transform: scale(1.08);
+}
+
+.gallery-card:hover .gallery-card-overlay {
+    opacity: 1;
+}
+
+/* Touch / mobile: always show overlay so content is accessible */
+@media (hover: none) {
+    .gallery-card-overlay {
+        opacity: 1;
+        background: linear-gradient(to top, rgba(30, 27, 75, 0.85) 0%, transparent 70%);
+    }
+}
+
+main {
+    min-width: 0;
+}
+
+.card-body,
+.card-title {
+    overflow-wrap: break-word;
+}
+
+/* ===================================================================
+   10. TABLES & SCROLLING UTILITIES
+   =================================================================== */
+.table-responsive {
+    -webkit-overflow-scrolling: touch;
+    border-radius: var(--radius-md);
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+    .table-responsive::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .table-responsive::-webkit-scrollbar-track {
+        background: #f3f4f6;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb {
+        background: #d1d5db;
+        border-radius: 3px;
+    }
+
+/* ===================================================================
+   11. FOOTER — Deep Indigo
+   =================================================================== */
+footer.bg-dark {
+    background: linear-gradient(180deg, #1e1b4b 0%, #0f0e1e 100%) !important;
+    border-top: 3px solid var(--primary-color);
+}
+
+footer a {
+    transition: color 0.2s ease;
+}
+
+footer .border-secondary {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* ===================================================================
+   12. CALL-TO-ACTION BAND — Warm Orange
+   =================================================================== */
+section.bg-primary.text-white {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 60%, #7c2d12 100%) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+section.bg-primary.text-white::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='40' cy='40' r='30'/%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+}
+
+/* ===================================================================
+   13. RESPONSIVE BREAKPOINTS (Mobile & Tablet Polish: 320px to 1199px)
+   =================================================================== */
+@media (max-width: 1199.98px) {
+    /* BUG FIX: navbar collapse must scroll but without visible scrollbar */
+    .navbar-collapse {
+        background: #ffffff;
+        padding: 1.25rem;
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-lg);
+        margin-top: 0.75rem;
+        border: 1px solid var(--border-color);
+        max-height: calc(100vh - 80px);
+        overflow-y: auto;
+        scrollbar-width: none !important;
+        -ms-overflow-style: none !important;
+    }
+
+    .navbar-collapse::-webkit-scrollbar {
+        display: none !important;
+        width: 0 !important;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .cause-image-wrapper {
+        height: 200px;
+    }
+
+    .card.sticky-top, aside.sticky-top {
+        position: static !important;
+        top: auto !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .row.g-5,
+    .row.gx-5 {
+        --bs-gutter-x: 1.5rem;
+    }
+
+    .top-bar {
+        text-align: center;
+    }
+
+        .top-bar .container {
+            justify-content: center !important;
+            gap: 0.5rem;
+        }
+
+    .counter-box {
+        padding: 0.85rem 0.45rem;
+    }
+
+    .counter-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 1.15rem;
+    }
+
+    .btn-lg {
+        padding: 0.65rem 1.25rem;
+        font-size: 0.95rem;
+    }
+}
+
+/* ===================================================================
+   14. DROPDOWNS & MODALS RESPONSIVE VIEWPORT CONSTRAINTS
+   =================================================================== */
+.dropdown-menu {
+    max-width: calc(100vw - 1.5rem);
+}
+
+.modal-dialog {
+    max-width: calc(100vw - 1rem);
+    margin: 0.5rem auto;
+}
+
+@media (min-width: 576px) {
+    .modal-dialog {
+        max-width: 500px;
+        margin: 1.75rem auto;
+    }
+
+        .modal-dialog.modal-lg {
+            max-width: 800px;
+        }
+}
+
+/* ===================================================================
+   15. COMPREHENSIVE RESPONSIVE ENHANCEMENTS (All screens 320px – 1920px+)
+   =================================================================== */
+
+/* ── Tiny phones (up to 374px) ── */
+@media (max-width: 374.98px) {
+    .container {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+
+    .hero-section h1,
+    h1.display-4 {
+        font-size: 1.35rem;
+    }
+
+    .donation-preset-btn {
+        font-size: 0.72rem;
+        padding: 0.45rem 0.2rem;
+    }
+
+    .col-lg-7, .col-lg-5 {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+    .card {
+        border-radius: 0.75rem !important;
+    }
+
+    .btn-lg {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .counter-box h3 {
+        font-size: 1rem;
+    }
+
+    .counter-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+    }
+
+    .card-simulation-box {
+        padding: 0.85rem;
+    }
+}
+
+/* ── All phones (up to 575px) ── */
+@media (max-width: 575.98px) {
+    .bg-primary h1.display-4 {
+        font-size: clamp(1.3rem, 5vw, 1.8rem);
+    }
+
+    .card-simulation-box {
+        padding: 1rem;
+    }
+
+    #cardPreviewNumber {
+        font-size: 0.8rem;
+        letter-spacing: 0.04em;
+    }
+
+    .gallery-card {
+        height: 200px;
+    }
+
+    .cause-image-wrapper {
+        height: 180px;
+    }
+
+    footer .col-lg-4,
+    footer .col-lg-2,
+    footer .col-lg-3,
+    footer .col-md-6 {
+        text-align: center;
+    }
+
+    footer .d-flex.gap-2 {
+        justify-content: center;
+    }
+
+    .navbar-collapse .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .alert .bi.fs-2 {
+        font-size: 1.25rem !important;
+    }
+
+    .py-5 {
+        padding-top: 2.5rem !important;
+        padding-bottom: 2.5rem !important;
+    }
+
+    .d-flex.flex-wrap.gap-2 .btn-sm {
+        flex: 1 1 120px;
+        text-align: center;
+    }
+
+    .col-lg-5 .sticky-top {
+        position: relative !important;
+        top: auto !important;
+    }
+}
+
+/* ── Phones & small tablets (576px – 767px) ── */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .cause-image-wrapper { height: 200px; }
+    .gallery-card { height: 220px; }
+    .donation-preset-btn { font-size: 0.88rem; }
+}
+
+/* ── Tablets (768px – 991px) ── */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .cause-image-wrapper { height: 210px; }
+
+    .col-lg-5 .card.sticky-top {
+        position: static !important;
+    }
+}
+
+/* ── Large tablets / small desktops (992px – 1199px) ── */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .hero-section h1 { font-size: 2rem; }
+    .cause-image-wrapper { height: 220px; }
+}
+
+/* ── Touch targets: min 44px tap area ── */
+@media (max-width: 991.98px) {
+    .btn { min-height: 40px; }
+    .btn-sm { min-height: 34px; }
+
+    /* BUG FIX: Prevent iOS auto-zoom on inputs smaller than 16px */
+    .form-control,
+    .form-select,
+    input,
+    textarea,
+    select {
+        font-size: 1rem !important;
+    }
+
+    .form-control,
+    .form-select {
+        min-height: 44px;
+    }
+
+    .form-control-sm {
+        min-height: 36px;
+        font-size: 0.875rem !important;
+    }
+}
+
+/* ── Card padding: compact on mobile ── */
+@media (max-width: 767.98px) {
+    .card.p-4 { padding: 1.25rem !important; }
+    .card.p-5 { padding: 1.5rem !important; }
+    .card.p-md-4 { padding: 1rem !important; }
+    .card.p-md-5 { padding: 1.25rem !important; }
+}
+
+/* ── Ensure images always fit parent ── */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ── Full-width form controls ── */
+.form-control,
+.form-select {
+    width: 100%;
+}
+
+/* ── Very wide screens (1920px+): contain layout ── */
+@media (min-width: 1920px) {
+    .container,
+    .container-xl,
+    .container-xxl {
+        max-width: 1600px;
+    }
+}

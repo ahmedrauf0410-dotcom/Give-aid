@@ -1,0 +1,120 @@
+@model GiveAID.ViewModels.UserQueryViewModel
+@{
+    ViewData["Title"] = "My Support Queries - Give-AID";
+}
+
+<div class="bg-primary text-white py-5 text-center">
+    <div class="container py-3">
+        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold mb-2">Member Support Portal</span>
+        <h1 class="display-4 fw-bold font-heading mb-2">Member Queries & Assistance</h1>
+        <p class="lead text-white-50 mx-auto mb-0" style="max-width: 650px;">
+            Open an official query to request tax certificates, corporate matching, volunteer schedules, or general welfare information.
+        </p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row g-4 g-lg-5">
+        <!-- New Query Submission Form -->
+        <div class="col-lg-5">
+            <div class="card border-0 shadow-sm rounded-4 p-3 p-sm-4 sticky-top" style="top: 80px;">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="bg-primary text-white p-2 rounded-circle d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                        <i class="bi bi-chat-left-text-fill"></i>
+                    </span>
+                    <h4 class="fw-bold text-dark mb-0">Submit A Query</h4>
+                </div>
+                <p class="text-muted small mb-4">
+                    Our team will review your inquiry and provide a written response in this portal.
+                </p>
+
+                <form asp-action="Queries" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div class="mb-3">
+                        <label asp-for="Subject" class="form-label small fw-semibold text-secondary"></label>
+                        <input asp-for="Subject" class="form-control" placeholder="Brief subject summary" />
+                        <span asp-validation-for="Subject" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Message" class="form-label small fw-semibold text-secondary"></label>
+                        <textarea asp-for="Message" rows="5" class="form-control" placeholder="Describe your question, request, or issue in detail..."></textarea>
+                        <span asp-validation-for="Message" class="text-danger small"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg w-100 py-3 fw-bold rounded-pill shadow-sm">
+                        <i class="bi bi-send-fill me-1"></i> Submit Query
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Previous Queries List & Responses -->
+        <div class="col-lg-7">
+            <h4 class="fw-bold text-dark mb-3"><i class="bi bi-clock-history me-2 text-primary"></i>My Support Inquiries History</h4>
+
+            @if (!Model.PastQueries.Any())
+            {
+                <div class="card border-0 shadow-sm rounded-4 p-5 text-center">
+                    <i class="bi bi-chat-square-text text-muted" style="font-size: 3rem;"></i>
+                    <h5 class="fw-bold mt-3">No Inquiries Submitted Yet</h5>
+                    <p class="text-muted small">You have not submitted any questions yet. Use the form on the left to submit a query.</p>
+                </div>
+            }
+            else
+            {
+                <div class="d-flex flex-column gap-3">
+                    @foreach (var query in Model.PastQueries)
+                    {
+                        var statusBadge = query.Status switch
+                        {
+                            "Resolved" => "bg-success",
+                            "In Progress" => "bg-info text-dark",
+                            _ => "bg-warning text-dark"
+                        };
+
+                        <div class="card border-0 shadow-sm rounded-4 p-3 p-sm-4">
+                            <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-2">
+                                <div>
+                                    <span class="badge @statusBadge px-3 py-1 rounded-pill mb-1">@query.Status</span>
+                                    <h5 class="fw-bold text-dark mb-0">@query.Subject</h5>
+                                </div>
+                                <small class="text-muted">@query.CreatedAt.ToString("MMM dd, yyyy")</small>
+                            </div>
+
+                            <div class="p-3 bg-light rounded-3 my-2 text-secondary small">
+                                <strong>Your Question:</strong>
+                                <p class="mb-0 mt-1">@query.Message</p>
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(query.AdminResponse))
+                            {
+                                <div class="p-3 bg-primary-subtle border-start border-4 border-primary rounded-3 mt-2">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <strong class="text-primary small"><i class="bi bi-shield-check me-1"></i>Official Admin Response:</strong>
+                                        @if (query.RespondedAt.HasValue)
+                                        {
+                                            <small class="text-muted">@query.RespondedAt.Value.ToString("MMM dd, yyyy")</small>
+                                        }
+                                    </div>
+                                    <p class="text-dark small mb-0">@query.AdminResponse</p>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="small text-muted fst-italic mt-2">
+                                    <i class="bi bi-hourglass-split me-1"></i> Awaiting administrative review and reply...
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

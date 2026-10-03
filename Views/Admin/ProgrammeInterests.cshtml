@@ -1,0 +1,84 @@
+@model IEnumerable<GiveAID.Models.ProgrammeInterest>
+@{
+    Layout = "_AdminLayout";
+    var filteredProg = ViewBag.FilteredProgramme as GiveAID.Models.Programme;
+    ViewData["Title"] = filteredProg != null ? $"RSVPs: {filteredProg.Title}" : "All Programme RSVPs & Volunteer Interests";
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+    <div>
+        <h4 class="fw-bold mb-1">
+            @if (filteredProg != null)
+            {
+                <span>RSVPs for: @filteredProg.Title</span>
+            }
+            else
+            {
+                <span>Programme Participation & Volunteer RSVPs</span>
+            }
+        </h4>
+        <p class="text-muted small mb-0">Review participants who indicated interest in attending or volunteering.</p>
+    </div>
+    <div>
+        @if (filteredProg != null)
+        {
+            <a asp-action="ProgrammeInterests" class="btn btn-outline-secondary btn-sm rounded-pill me-2">
+                View All Programmes
+            </a>
+        }
+        <a asp-action="Programmes" class="btn btn-primary btn-sm rounded-pill px-3">
+            &larr; Back to Programmes
+        </a>
+    </div>
+</div>
+
+<div class="card admin-table-card border-0 shadow-sm rounded-4">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light small text-secondary">
+                <tr>
+                    <th>Participant</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Programme</th>
+                    <th>Message / Note</th>
+                    <th>Registered At</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="6" class="text-center py-4 text-muted">No RSVPs recorded yet for this selection.</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <strong class="text-dark">@item.FullName</strong>
+                                @if (item.UserId.HasValue)
+                                {
+                                    <span class="badge bg-success-subtle text-success ms-1 small">Registered Member</span>
+                                }
+                            </td>
+                            <td><a href="mailto:@item.Email" class="text-primary text-decoration-none">@item.Email</a></td>
+                            <td>@(item.Phone ?? "N/A")</td>
+                            <td>
+                                <a asp-action="ProgrammeInterests" asp-route-programmeId="@item.ProgrammeId" class="badge bg-light text-dark border text-decoration-none">
+                                    @item.Programme.Title
+                                </a>
+                            </td>
+                            <td class="small text-secondary" style="max-width: 250px;">
+                                @(string.IsNullOrEmpty(item.Message) ? "No message provided" : item.Message)
+                            </td>
+                            <td class="small text-muted">@item.CreatedAt.ToString("MMM dd, yyyy HH:mm")</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
